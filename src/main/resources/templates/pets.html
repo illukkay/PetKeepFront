@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+       
+        <title>Meus Pets - PetKeep</title>
+
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: Arial, sans-serif;
+            }
+
+            body {
+                background-color: #f5f6fa;
+                color: #333;
+                min-height: 100vh;
+            }
+
+            header {
+                background-color: #6c5ce7;
+                color: white;
+                padding: 20px 50px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            header h1 {
+                font-size: 26px;
+            }
+
+            .voltar {
+                color: white;
+                text-decoration: none;
+                font-size: 15px;
+            }
+
+            main {
+                max-width: 1100px;
+                margin: 40px auto;
+                padding: 0 20px;
+            }
+
+            .topo {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 30px;
+            }
+
+            .topo h2 {
+                font-size: 30px;
+            }
+
+            .btn-cadastrar {
+                background-color: #6c5ce7;
+                color: white;
+                text-decoration: none;
+                padding: 12px 20px;
+                border-radius: 8px;
+                font-weight: bold;
+                transition: 0.2s;
+            }
+
+            .btn-cadastrar:hover {
+                background-color: #5849c4;
+            }
+
+            .lista-pets {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 20px;
+            }
+
+            .pet-card {
+                background-color: white;
+                border-radius: 12px;
+                padding: 25px;
+                box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+            }
+
+            .pet-card h3 {
+                font-size: 22px;
+                margin-bottom: 15px;
+                color: #6c5ce7;
+            }
+
+            .pet-card p {
+                margin: 8px 0;
+            }
+
+            .pet-card strong {
+                color: #555;
+            }
+
+            .ver-mais {
+                display: inline-block;
+                margin-top: 15px;
+                color: #6c5ce7;
+                text-decoration: none;
+                font-weight: bold;
+            }
+
+            .sem-pets {
+                background-color: white;
+                padding: 40px;
+                border-radius: 12px;
+                text-align: center;
+                box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+            }
+
+            .sem-pets p {
+                margin-bottom: 20px;
+                color: #666;
+            }
+
+            @media (max-width: 600px) {
+                header {
+                    padding: 20px;
+                }
+
+                .topo {
+                    flex-direction: column;
+                    align-items: flex-start;
+                    gap: 20px;
+                }
+            }
+        </style>
+       
+
+    </head>
+
+    <body>
+
+        <header>
+            <h1>🐾 PetKeep</h1>
+
+
+            <a href="/" class="voltar">
+                Voltar para o início
+            </a>
+
+
+        </header>
+
+        <main>
+
+            <div class="topo">
+                <h2>Meus Pets</h2>
+
+                <a href="/pets/cadastro" class="btn-cadastrar">
+                    + Cadastrar Pet
+                </a>
+            </div>
+
+            <div class="lista-pets" th:if="${pets != null and !pets.isEmpty()}">
+
+                <div class="pet-card" th:each="pet : ${pets}">
+
+                    <h3 th:text="${pet.nome}">
+                        Nome do Pet
+                    </h3>
+
+                    <p>
+                        <strong>Espécie:</strong>
+                        <span th:text="${pet.especie}">
+                            Espécie
+                        </span>
+                    </p>
+
+                    <p>
+                        <strong>Raça:</strong>
+                        <span th:text="${pet.raca}">
+                            Raça
+                        </span>
+                    </p>
+
+                    <p>
+                        <strong>Idade:</strong>
+                        <span th:text="${pet.idade}">
+                            0
+                        </span>
+                        anos
+                    </p>
+
+                    <p>
+                        <strong>Porte:</strong>
+                        <span th:text="${pet.porte}">
+                            Porte
+                        </span>
+                    </p>
+
+                    <p th:if="${pet.observacoes != null and !pet.observacoes.isEmpty()}">
+                        <strong>Observações:</strong>
+                        <span th:text="${pet.observacoes}">
+                            Observações
+                        </span>
+                    </p>
+
+                    <a th:href="@{/pets/{id}(id=${pet.id})}"
+                       class="ver-mais">
+                        Ver detalhes →
+                    </a>
+
+                </div>
+
+            </div>
+
+            <div class="sem-pets"
+                 th:if="${pets == null or pets.isEmpty()}">
+
+                <h3>Você ainda não possui pets cadastrados 🐶</h3>
+
+                <p>
+                    Cadastre seu primeiro pet para começar a usar o PetKeep.
+                </p>
+
+                <a href="/pets/cadastro" class="btn-cadastrar">
+                    Cadastrar meu primeiro pet
+                </a>
+
+            </div>
+
+        </main>
+
+    </body>
+</html>
