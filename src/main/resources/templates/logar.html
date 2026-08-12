@@ -1,226 +1,236 @@
 <!DOCTYPE html>
-
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PetKeep - Login</title>
 
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
 
-<style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: Arial, sans-serif;
-    }
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f0f4f1;
+            color: #2d3732;
+            padding: 20px;
+        }
 
-    body {
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: #f4f0ff;
-    }
-
-    .container {
-        width: 900px;
-        min-height: 550px;
-        display: flex;
-        background: white;
-        border-radius: 20px;
-        overflow: hidden;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
-    }
-
-    .left {
-        width: 45%;
-        background: #7c4dff;
-        color: white;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        padding: 50px;
-    }
-
-    .left h1 {
-        font-size: 42px;
-        margin-bottom: 15px;
-    }
-
-    .left p {
-        font-size: 17px;
-        line-height: 1.6;
-    }
-
-    .right {
-        width: 55%;
-        padding: 55px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
-
-    .right h2 {
-        font-size: 30px;
-        color: #333;
-        margin-bottom: 10px;
-    }
-
-    .subtitle {
-        color: #777;
-        margin-bottom: 30px;
-    }
-
-    .form-group {
-        margin-bottom: 20px;
-    }
-
-    .form-group label {
-        display: block;
-        margin-bottom: 7px;
-        color: #444;
-        font-weight: bold;
-    }
-
-    .form-group input {
-        width: 100%;
-        padding: 13px;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        font-size: 15px;
-        outline: none;
-    }
-
-    .form-group input:focus {
-        border-color: #7c4dff;
-    }
-
-    .button {
-        width: 100%;
-        padding: 14px;
-        border: none;
-        border-radius: 8px;
-        background: #7c4dff;
-        color: white;
-        font-size: 16px;
-        font-weight: bold;
-        cursor: pointer;
-        transition: 0.2s;
-    }
-
-    .button:hover {
-        background: #6938e8;
-    }
-
-    .error {
-        background: #ffe5e5;
-        color: #c62828;
-        padding: 12px;
-        border-radius: 8px;
-        margin-bottom: 20px;
-        font-size: 14px;
-    }
-
-    .register {
-        margin-top: 25px;
-        text-align: center;
-        color: #777;
-        font-size: 14px;
-    }
-
-    .register a {
-        color: #7c4dff;
-        text-decoration: none;
-        font-weight: bold;
-    }
-
-    @media (max-width: 700px) {
         .container {
-            width: 95%;
-            min-height: auto;
+            width: 100%;
+            max-width: 880px;
+            min-height: 520px;
+            display: flex;
+            background: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #cbd5e1;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04);
         }
 
         .left {
-            display: none;
+            width: 45%;
+            background: #1b4332;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 50px 40px;
+        }
+
+        .left h1 {
+            font-size: 36px;
+            margin-bottom: 16px;
+            letter-spacing: -0.5px;
+        }
+
+        .left p {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #e2e8f0;
         }
 
         .right {
-            width: 100%;
-            padding: 35px;
+            width: 55%;
+            padding: 50px 45px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
-    }
-</style>
 
+        .right h2 {
+            font-size: 26px;
+            color: #1b4332;
+            margin-bottom: 6px;
+        }
 
+        .subtitle {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 28px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: #2d3732;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            background-color: #fafafa;
+        }
+
+        .form-group input:focus {
+            border-color: #1b4332;
+            background-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(27, 67, 50, 0.1);
+        }
+
+        .button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            background: #1b4332;
+            color: white;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 8px;
+        }
+
+        .button:hover {
+            background: #2d6a4f;
+        }
+
+        .error {
+            background: #fde8e8;
+            color: #9b1c1c;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            border: 1px solid #f8b4b4;
+        }
+
+        .register {
+            margin-top: 24px;
+            text-align: center;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .register a {
+            color: #1b4332;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .register a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 700px) {
+            .container {
+                min-height: auto;
+            }
+
+            .left {
+                display: none;
+            }
+
+            .right {
+                width: 100%;
+                padding: 35px 25px;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
 <div class="container">
 
-
-<div class="left">
-    <h1>PetKeep</h1>
-    <p>
-        Cuide de quem faz parte da sua família.
-        Encontre serviços e pessoas para cuidar do seu pet.
-    </p>
-</div>
-
-<div class="right">
-
-    <h2>Bem-vindo de volta!</h2>
-
-    <p class="subtitle">
-        Entre na sua conta para continuar.
-    </p>
-
-    <div
-        class="error"
-        th:if="${errorMessage}"
-        th:text="${errorMessage}">
+    <div class="left">
+        <h1>PetKeep</h1>
+        <p>
+            O espaço ideal para organizar a rotina, os cuidados e a saúde do seu pet com praticidade e carinho.
+        </p>
     </div>
 
-    <form th:action="@{/logar}" th:object="${user}" method="post">
+    <div class="right">
 
-        <div class="form-group">
-            <label for="email">E-mail</label>
+        <h2>Bem-vindo de volta!</h2>
 
-            <input
-                type="email"
-                id="email"
-                th:field="*{email}"
-                placeholder="Digite seu e-mail"
-                required>
+        <p class="subtitle">
+            Acesse sua conta para continuar.
+        </p>
+
+        <div
+            class="error"
+            th:if="${errorMessage}"
+            th:text="${errorMessage}">
         </div>
 
-        <div class="form-group">
-            <label for="senha">Senha</label>
+        <form th:action="@{/logar}" th:object="${user}" method="post">
 
-            <input
-                type="password"
-                id="senha"
-                th:field="*{senha}"
-                placeholder="Digite sua senha"
-                required>
+            <div class="form-group">
+                <label for="email">E-mail</label>
+
+                <input
+                    type="email"
+                    id="email"
+                    th:field="*{email}"
+                    placeholder="seuemail@exemplo.com"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label for="senha">Senha</label>
+
+                <input
+                    type="password"
+                    id="senha"
+                    th:field="*{senha}"
+                    placeholder="Digite sua senha"
+                    required>
+            </div>
+
+            <button
+                type="submit"
+                class="button">
+                Entrar
+            </button>
+
+        </form>
+
+        <div class="register">
+            Ainda não possui uma conta?
+            <a href="/cadastro">Cadastre-se</a>
         </div>
 
-        <button
-            type="submit"
-            class="button">
-            Entrar
-        </button>
-
-    </form>
-
-    <div class="register">
-        Ainda não possui uma conta?
-        <a href="/registro">Cadastre-se</a>
     </div>
-
-</div>
-
 
 </div>
 

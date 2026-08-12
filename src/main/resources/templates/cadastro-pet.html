@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+        <title>Cadastrar Pet - PetKeep</title>
+
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: Arial, sans-serif;
+            }
+
+            body {
+                background-color: #f0f4f1;
+                color: #2d3732;
+                min-height: 100vh;
+            }
+
+            header {
+                background-color: #1b4332;
+                color: white;
+                padding: 20px 50px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                border-bottom: 1px solid #0d281e;
+            }
+
+            header h1 {
+                font-size: 26px;
+            }
+
+            .voltar {
+                color: white;
+                text-decoration: none;
+                font-size: 15px;
+            }
+
+            .voltar:hover {
+                text-decoration: underline;
+            }
+
+            main {
+                max-width: 700px;
+                margin: 40px auto;
+                padding: 0 20px;
+            }
+
+            .formulario {
+                background-color: white;
+                padding: 35px;
+                border-radius: 8px;
+                border: 1px solid #cbd5e1;
+            }
+
+            .formulario h2 {
+                font-size: 28px;
+                margin-bottom: 10px;
+                color: #1b4332;
+            }
+
+            .descricao {
+                color: #64748b;
+                margin-bottom: 30px;
+            }
+
+            .campo {
+                margin-bottom: 20px;
+            }
+
+            .campo label {
+                display: block;
+                margin-bottom: 8px;
+                font-weight: bold;
+                color: #2d3732;
+            }
+
+            .campo input,
+            .campo select,
+            .campo textarea {
+                width: 100%;
+                padding: 12px;
+                border: 1px solid #cbd5e1;
+                border-radius: 6px;
+                font-size: 15px;
+                outline: none;
+                color: #2d3732;
+                background-color: #fff;
+            }
+
+            .campo input:focus,
+            .campo select:focus,
+            .campo textarea:focus {
+                border-color: #1b4332;
+            }
+
+            .campo textarea {
+                resize: vertical;
+                min-height: 100px;
+            }
+
+            .botoes {
+                display: flex;
+                gap: 15px;
+                margin-top: 30px;
+            }
+
+            .btn {
+                flex: 1;
+                padding: 13px;
+                border-radius: 6px;
+                text-align: center;
+                text-decoration: none;
+                font-weight: bold;
+                border: none;
+                cursor: pointer;
+                font-size: 15px;
+                transition: 0.2s;
+            }
+
+            .btn-cancelar {
+                background-color: #e2e8f0;
+                color: #475569;
+            }
+
+            .btn-cancelar:hover {
+                background-color: #cbd5e1;
+            }
+
+            .btn-cadastrar {
+                background-color: #1b4332;
+                color: white;
+            }
+
+            .btn-cadastrar:hover {
+                background-color: #2d6a4f;
+            }
+
+            @media (max-width: 600px) {
+                header {
+                    padding: 20px;
+                }
+
+                .formulario {
+                    padding: 25px;
+                }
+
+                .botoes {
+                    flex-direction: column;
+                }
+            }
+        </style>
+
+
+    </head>
+
+    <body>
+
+        <header>
+            <h1>PetKeep</h1>
+
+            <a href="/pets" class="voltar">
+                Voltar para meus pets
+            </a>
+
+
+        </header>
+
+        <main>
+
+
+            <div class="formulario">
+
+                <h2>Cadastrar Pet</h2>
+
+                <p class="descricao">
+                    Preencha os dados do seu pet para cadastrá-lo no PetKeep.
+                </p>
+
+                <form th:action="@{/pets/cadastro}"
+                      th:object="${pet}"
+                      method="post">
+
+                    <div class="campo">
+
+                        <label for="nome">
+                            Nome
+                        </label>
+
+                        <input
+                            type="text"
+                            id="nome"
+                            th:field="*{nome}"
+                            placeholder="Ex: Rex"
+                            required>
+
+                    </div>
+
+                    <div class="campo">
+
+                        <label for="especie">
+                            Espécie
+                        </label>
+
+                        <select
+                            id="especie"
+                            th:field="*{especie}"
+                            required>
+
+                            <option value="">
+                                Selecione a espécie
+                            </option>
+
+                            <option
+                                th:each="especie : ${T(com.petkeep.front.model.Pet.Especie).values()}"
+                                th:value="${especie}"
+                                th:text="${especie}">
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="campo">
+
+                        <label for="raca">
+                            Raça
+                        </label>
+
+                        <input
+                            type="text"
+                            id="raca"
+                            th:field="*{raca}"
+                            placeholder="Ex: Labrador">
+
+                    </div>
+
+                    <div class="campo">
+
+                        <label for="idade">
+                            Idade
+                        </label>
+
+                        <input
+                            type="number"
+                            id="idade"
+                            th:field="*{idade}"
+                            min="0"
+                            placeholder="Ex: 5"
+                            required>
+
+                    </div>
+
+                    <div class="campo">
+
+                        <label for="porte">
+                            Porte
+                        </label>
+
+                        <select
+                            id="porte"
+                            th:field="*{porte}"
+                            required>
+
+                            <option value="">
+                                Selecione o porte
+                            </option>
+
+                            <option value="PEQUENO">
+                                Pequeno
+                            </option>
+
+                            <option value="MEDIO">
+                                Médio
+                            </option>
+
+                            <option value="GRANDE">
+                                Grande
+                            </option>
+
+                            <option value="GIGANTE">
+                                Gigante
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="campo">
+
+                        <label for="observacoes">
+                            Observações
+                        </label>
+
+                        <textarea
+                            id="observacoes"
+                            th:field="*{observacoes}"
+                            placeholder="Digite alguma informação importante sobre seu pet...">
+                        </textarea>
+
+                    </div>
+
+                    <div class="botoes">
+
+                        <a href="/pets"
+                           class="btn btn-cancelar">
+                            Cancelar
+                        </a>
+
+                        <button
+                            type="submit"
+                            class="btn btn-cadastrar">
+                            Cadastrar Pet
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </main>
+
+    </body>
+</html>

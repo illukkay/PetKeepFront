@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PetKeep - Tarefas Disponíveis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #f0f4f1;
+            color: #2d3732;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            height: 70px;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 50px;
+            border-bottom: 1px solid #cbd5e1;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: bold;
+            color: #1b4332;
+            text-decoration: none;
+        }
+
+        .nav {
+            display: flex;
+            gap: 28px;
+            align-items: center;
+        }
+
+        .nav a {
+            text-decoration: none;
+            color: #4a5568;
+            font-weight: bold;
+            font-size: 15px;
+        }
+
+        .nav a:hover {
+            color: #1b4332;
+        }
+
+        main {
+            max-width: 1050px;
+            width: 100%;
+            margin: 35px auto;
+            padding: 0 20px;
+            flex: 1;
+        }
+
+        .title-section {
+            background: #1b4332;
+            color: white;
+            border-radius: 12px;
+            padding: 35px 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(27, 67, 50, 0.15);
+        }
+
+        .title-section h1 {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .title-section p {
+            color: #e2e8f0;
+            font-size: 15px;
+        }
+
+        .tasks {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .task-card {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            padding: 25px;
+        }
+
+        .task-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .task-header h2 {
+            color: #1b4332;
+            font-size: 21px;
+        }
+
+        .score {
+            background: #e8f3eb;
+            color: #1b4332;
+            padding: 7px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .task-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .info-item {
+            background: #f0f4f1;
+            padding: 14px;
+            border-radius: 7px;
+        }
+
+        .info-item strong {
+            display: block;
+            color: #64748b;
+            font-size: 12px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .info-item span {
+            color: #2d3732;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .description {
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .task-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 11px 18px;
+            background: #1b4332;
+            color: white;
+            border-radius: 6px;
+            border: none;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background: #143426;
+        }
+
+        .empty {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .empty h2 {
+            color: #1b4332;
+            margin-bottom: 10px;
+        }
+
+        .empty p {
+            color: #64748b;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 25px;
+            color: #1b4332;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        footer {
+            text-align: center;
+            color: #64748b;
+            font-size: 14px;
+            padding: 25px;
+            border-top: 1px solid #e2e8f0;
+            background: #ffffff;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 700px) {
+            header {
+                padding: 0 20px;
+            }
+
+            .task-info {
+                grid-template-columns: 1fr;
+            }
+
+            .task-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="/" class="logo">PetKeep</a>
+    <nav class="nav">
+        <a href="/pets">Meus Pets</a>
+        <a href="/tarefas">Tarefas</a>
+        <a href="/perfil">Perfil</a>
+    </nav>
+</header>
+
+<main>
+
+    <section class="title-section">
+        <h1>Tarefas Disponíveis</h1>
+        <p>Confira as tarefas compatíveis com o seu perfil.</p>
+    </section>
+
+    <section class="tasks" th:if="${not #lists.isEmpty(tarefas)}">
+
+        <div class="task-card" th:each="match : ${tarefas}">
+
+            <div class="task-header">
+                <h2 th:text="${match.tarefa.pet.nome}">Nome do pet</h2>
+
+                <span class="score">
+                    Match:
+                    <span th:text="${match.score}">0</span>%
+                </span>
+            </div>
+
+            <div class="task-info">
+
+                <div class="info-item">
+                    <strong>Serviço</strong>
+                    <span th:text="${match.tarefa.tipoServico}">Passeio</span>
+                </div>
+
+                <div class="info-item">
+                    <strong>Valor</strong>
+                    <span>R$ <span th:text="${match.tarefa.valor}">0,00</span></span>
+                </div>
+
+                <div class="info-item">
+                    <strong>Data</strong>
+                    <span th:text="${match.tarefa.dataServico}">Data</span>
+                </div>
+
+                <div class="info-item">
+                    <strong>Status</strong>
+                    <span th:text="${match.tarefa.status}">ABERTA</span>
+                </div>
+
+            </div>
+
+            <p class="description">
+                <strong>Descrição:</strong>
+                <span th:text="${match.tarefa.descricao}">Descrição da tarefa</span>
+            </p>
+
+            <div class="task-actions">
+                <form th:action="@{/tarefas/aceitar/{id}(id=${match.tarefa.id})}" method="post">
+                    <button type="submit" class="button">Aceitar tarefa</button>
+                </form>
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="empty" th:if="${#lists.isEmpty(tarefas)}">
+        <h2>Nenhuma tarefa encontrada</h2>
+        <p>No momento não existem tarefas compatíveis com o seu perfil.</p>
+    </section>
+
+    <a href="/tarefas" class="back">← Voltar para tarefas</a>
+
+</main>
+
+<footer>
+    PetKeep &copy; 2026 — Seu ecossistema de cuidado animal
+</footer>
+
+</body>
+</html>
