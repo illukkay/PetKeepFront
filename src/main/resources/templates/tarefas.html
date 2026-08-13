@@ -22,19 +22,19 @@
 
         header {
             height: 70px;
-            background: #ffffff;
+            background: #1b4332; 
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 0 50px;
-            border-bottom: 1px solid #cbd5e1;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+            border-bottom: 1px solid #143426;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .logo {
             font-size: 26px;
             font-weight: bold;
-            color: #1b4332;
+            color: #ffffff; 
             text-decoration: none;
         }
 
@@ -46,13 +46,14 @@
 
         .nav a {
             text-decoration: none;
-            color: #4a5568;
+            color: #d1e7dd; 
             font-weight: bold;
             font-size: 15px;
+            transition: color 0.2s;
         }
 
-        .nav a:hover {
-            color: #1b4332;
+        .nav a:hover, .nav a.active {
+            color: #ffffff; 
         }
 
         main {
@@ -61,6 +62,32 @@
             margin: 35px auto;
             padding: 0 20px;
             flex: 1;
+        }
+
+       
+        .back-nav {
+            margin-bottom: 20px;
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #1b4332;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            padding: 8px 14px;
+            background-color: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-back:hover {
+            background-color: #1b4332;
+            color: #ffffff;
+            border-color: #1b4332;
         }
 
         .title-section {
@@ -95,6 +122,9 @@
             border: 1px solid #cbd5e1;
             border-radius: 10px;
             padding: 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
         .action-card h2 {
@@ -119,6 +149,8 @@
             text-decoration: none;
             font-weight: bold;
             font-size: 14px;
+            text-align: center;
+            transition: background 0.2s;
         }
 
         .button:hover {
@@ -150,6 +182,7 @@
         .section p {
             color: #64748b;
             font-size: 14px;
+            line-height: 1.5;
         }
 
         footer {
@@ -182,13 +215,21 @@
 <header>
     <a href="/" class="logo">PetKeep</a>
     <nav class="nav">
+        <a href="/">Início</a>
         <a href="/pets">Meus Pets</a>
-        <a href="/tarefas">Tarefas</a>
+        <a href="/tarefas" class="active">Tarefas</a>
         <a href="/perfil">Perfil</a>
     </nav>
 </header>
 
 <main>
+
+    <!-- Botão de Voltar ao Início -->
+    <div class="back-nav">
+        <a href="/" class="btn-back">
+            &larr; Voltar ao Início
+        </a>
+    </div>
 
     <section class="title-section">
         <h1>Minhas Tarefas</h1>
@@ -200,24 +241,28 @@
     <section class="actions">
 
         <div class="action-card">
-            <h2>Cadastrar tarefa</h2>
-            <p>
-                Crie uma nova tarefa para seu pet, informando o serviço,
-                valor, data e descrição.
-            </p>
+            <div>
+                <h2>Cadastrar tarefa</h2>
+                <p>
+                    Crie uma nova tarefa para seu pet, informando o serviço,
+                    valor, data e descrição.
+                </p>
+            </div>
             <a href="/tarefas/cadastro" class="button">
-                Cadastrar tarefa →
+                Cadastrar tarefa &rarr;
             </a>
         </div>
 
         <div class="action-card">
-            <h2>Tarefas disponíveis</h2>
-            <p>
-                Veja tarefas disponíveis para você e confira os matches
-                encontrados pelo sistema.
-            </p>
+            <div>
+                <h2>Tarefas disponíveis</h2>
+                <p>
+                    Veja tarefas disponíveis para você e confira os matches
+                    encontrados pelo sistema.
+                </p>
+            </div>
             <a href="/tarefas/disponiveis" class="button secondary">
-                Ver tarefas →
+                Ver tarefas &rarr;
             </a>
         </div>
 

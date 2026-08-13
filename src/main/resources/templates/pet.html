@@ -21,6 +21,7 @@
             min-height: 100vh;
         }
 
+     
         header {
             background-color: #1b4332;
             color: white;
@@ -33,29 +34,34 @@
 
         header h1 {
             font-size: 26px;
+            letter-spacing: -0.5px;
         }
 
         .voltar-header {
-            color: white;
+            color: #e2e8f0;
             text-decoration: none;
-            font-size: 15px;
+            font-size: 14px;
+            font-weight: bold;
+            transition: color 0.2s;
         }
 
         .voltar-header:hover {
+            color: #ffffff;
             text-decoration: underline;
         }
 
         main {
             max-width: 650px;
-            margin: 30px auto;
+            margin: 40px auto;
             padding: 0 20px;
         }
 
         .card {
             background-color: white;
-            padding: 30px;
-            border-radius: 8px;
+            padding: 35px;
+            border-radius: 12px;
             border: 1px solid #cbd5e1;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
         }
 
         .header-card {
@@ -69,7 +75,7 @@
             color: #1b4332;
         }
 
-        /* Grade para organizar as informações sem espaço sobrando */
+     
         .grid-info {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -154,7 +160,7 @@
 
     <header>
         <h1>PetKeep</h1>
-        <a href="/pets" class="voltar-header">Voltar para meus pets</a>
+        <a href="/pets" class="voltar-header">&larr; Voltar para meus pets</a>
     </header>
 
     <main>

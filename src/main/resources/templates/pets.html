@@ -1,295 +1,352 @@
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Meus Pets - PetKeep</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus Pets - PetKeep</title>
 
-        <style>
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-                font-family: Arial, sans-serif;
-            }
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
 
-            body {
-                background-color: #f0f4f1;
-                color: #2d3732;
-                min-height: 100vh;
-            }
+        body {
+            background-color: #f0f4f1;
+            color: #2d3732;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
 
+        header {
+            height: 70px;
+            background: #1b4332;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 50px;
+            border-bottom: 1px solid #143426;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: bold;
+            color: #ffffff; 
+            text-decoration: none;
+        }
+
+        .nav {
+            display: flex;
+            gap: 28px;
+            align-items: center;
+        }
+
+        .nav a {
+            text-decoration: none;
+            color: #d1e7dd; 
+            font-weight: bold;
+            font-size: 15px;
+            transition: color 0.2s;
+        }
+
+        .nav a:hover, .nav a.active {
+            color: #ffffff; 
+        }
+
+        main {
+            max-width: 1050px;
+            width: 100%;
+            margin: 35px auto;
+            padding: 0 20px;
+            flex: 1;
+        }
+
+   
+        .back-nav {
+            margin-bottom: 20px;
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #1b4332;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            padding: 8px 14px;
+            background-color: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-back:hover {
+            background-color: #1b4332;
+            color: #ffffff;
+            border-color: #1b4332;
+        }
+
+        .topo {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .topo h2 {
+            font-size: 26px;
+            color: #1b4332;
+        }
+
+        .btn-cadastrar {
+            background-color: #1b4332;
+            color: white;
+            text-decoration: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 14px;
+            transition: background 0.2s;
+            display: inline-block;
+        }
+
+        .btn-cadastrar:hover {
+            background-color: #143426;
+        }
+
+        /* Grade de Cards */
+        .lista-pets {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .pet-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid #cbd5e1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .pet-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .pet-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #f0f4f1;
+        }
+
+        .pet-card h3 {
+            font-size: 20px;
+            color: #1b4332;
+        }
+
+        .badge {
+            background-color: #e8f3eb;
+            color: #1b4332;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 4px 8px;
+            border-radius: 12px;
+            text-transform: uppercase;
+        }
+
+        .pet-info {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 18px;
+        }
+
+        .pet-info p {
+            font-size: 14px;
+            color: #4a5568;
+            margin: 0;
+        }
+
+        .pet-info strong {
+            color: #2d3732;
+        }
+
+        .obs-container {
+            background-color: #f8faf9;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border-left: 3px solid #1b4332;
+            margin-top: 4px;
+        }
+
+        .obs-container p {
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        .ver-mais {
+            display: block;
+            text-align: center;
+            background-color: #f0f4f1;
+            color: #1b4332;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            padding: 10px;
+            border-radius: 6px;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .ver-mais:hover {
+            background-color: #1b4332;
+            color: white;
+        }
+
+        .sem-pets {
+            background-color: white;
+            padding: 50px 20px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid #cbd5e1;
+            max-width: 500px;
+            margin: 40px auto;
+        }
+
+        .sem-pets h3 {
+            color: #1b4332;
+            font-size: 22px;
+            margin-bottom: 8px;
+        }
+
+        .sem-pets p {
+            margin-bottom: 24px;
+            color: #64748b;
+            font-size: 15px;
+        }
+
+        footer {
+            text-align: center;
+            color: #64748b;
+            font-size: 14px;
+            padding: 25px;
+            border-top: 1px solid #e2e8f0;
+            background: #ffffff;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 700px) {
             header {
-                background-color: #1b4332;
-                color: white;
-                padding: 20px 50px;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                border-bottom: 1px solid #0d281e;
-            }
-
-            header h1 {
-                font-size: 26px;
-            }
-
-            .voltar {
-                color: white;
-                text-decoration: none;
-                font-size: 15px;
-            }
-
-            .voltar:hover {
-                text-decoration: underline;
-            }
-
-            main {
-                max-width: 1000px;
-                margin: 35px auto;
                 padding: 0 20px;
             }
 
             .topo {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-bottom: 25px;
-            }
-
-            .topo h2 {
-                font-size: 26px;
-                color: #1b4332;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
             }
 
             .btn-cadastrar {
-                background-color: #1b4332;
-                color: white;
-                text-decoration: none;
-                padding: 10px 18px;
-                border-radius: 6px;
-                font-weight: bold;
-                font-size: 14px;
-                transition: 0.2s;
-                display: inline-block;
-            }
-
-            .btn-cadastrar:hover {
-                background-color: #2d6a4f;
-            }
-
-            /* Grade de Cards Ajustada */
-            .lista-pets {
-                display: grid;
-                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-                gap: 20px;
-            }
-
-            .pet-card {
-                background-color: white;
-                border-radius: 8px;
-                padding: 20px;
-                border: 1px solid #cbd5e1;
-                display: flex;
-                flex-direction: column;
-                justify-content: space-between;
-                transition: transform 0.2s, box-shadow 0.2s;
-            }
-
-            .pet-card:hover {
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            }
-
-            .pet-header {
-                display: flex;
-                justify-content: space-between;
-                align-items: flex-start;
-                margin-bottom: 12px;
-                padding-bottom: 10px;
-                border-bottom: 1px solid #f0f4f1;
-            }
-
-            .pet-card h3 {
-                font-size: 20px;
-                color: #1b4332;
-            }
-
-            .badge {
-                background-color: #e8f5e9;
-                color: #1b4332;
-                font-size: 12px;
-                font-weight: bold;
-                padding: 4px 8px;
-                border-radius: 12px;
-                text-transform: uppercase;
-            }
-
-            .pet-info {
-                display: flex;
-                flex-direction: column;
-                gap: 8px;
-                margin-bottom: 18px;
-            }
-
-            .pet-info p {
-                font-size: 14px;
-                color: #4a5568;
-                margin: 0;
-            }
-
-            .pet-info strong {
-                color: #2d3732;
-            }
-
-            .obs-container {
-                background-color: #f8faf9;
-                padding: 8px 12px;
-                border-radius: 6px;
-                border-left: 3px solid #1b4332;
-                margin-top: 4px;
-            }
-
-            .obs-container p {
-                font-size: 13px;
-                color: #64748b;
-            }
-
-            .ver-mais {
-                display: block;
+                width: 100%;
                 text-align: center;
-                background-color: #f0f4f1;
-                color: #1b4332;
-                text-decoration: none;
-                font-weight: bold;
-                font-size: 14px;
-                padding: 10px;
-                border-radius: 6px;
-                transition: 0.2s;
             }
+        }
+    </style>
+</head>
 
-            .ver-mais:hover {
-                background-color: #1b4332;
-                color: white;
-            }
+<body>
 
-            .sem-pets {
-                background-color: white;
-                padding: 50px 20px;
-                border-radius: 8px;
-                text-align: center;
-                border: 1px solid #cbd5e1;
-                max-width: 500px;
-                margin: 40px auto;
-            }
+    <header>
+        <a href="/" class="logo">PetKeep</a>
+        <nav class="nav">
+            <a href="/">Início</a>
+            <a href="/pets" class="active">Meus Pets</a>
+            <a href="/tarefas">Tarefas</a>
+            <a href="/perfil">Perfil</a>
+        </nav>
+    </header>
 
-            .sem-pets h3 {
-                color: #1b4332;
-                font-size: 22px;
-                margin-bottom: 8px;
-            }
+    <main>
 
-            .sem-pets p {
-                margin-bottom: 24px;
-                color: #64748b;
-                font-size: 15px;
-            }
-
-            @media (max-width: 600px) {
-                header {
-                    padding: 20px;
-                }
-
-                .topo {
-                    flex-direction: column;
-                    align-items: flex-start;
-                    gap: 12px;
-                }
-
-                .btn-cadastrar {
-                    width: 100%;
-                    text-align: center;
-                }
-            }
-        </style>
-    </head>
-
-    <body>
-
-        <header>
-            <h1>PetKeep</h1>
-
-            <a href="/" class="voltar">
-                Voltar para o início
+    
+        <div class="back-nav">
+            <a href="/" class="btn-back">
+                &larr; Voltar ao Início
             </a>
-        </header>
+        </div>
 
-        <main>
+        <div class="topo">
+            <h2>Meus Pets</h2>
 
-            <div class="topo">
-                <h2>Meus Pets</h2>
+            <a href="/pets/cadastro" class="btn-cadastrar">
+                + Cadastrar Pet
+            </a>
+        </div>
 
-                <a href="/pets/cadastro" class="btn-cadastrar">
-                    + Cadastrar Pet
-                </a>
-            </div>
+        <div class="lista-pets" th:if="${pets != null and !pets.isEmpty()}">
 
-            <div class="lista-pets" th:if="${pets != null and !pets.isEmpty()}">
+            <div class="pet-card" th:each="pet : ${pets}">
 
-                <div class="pet-card" th:each="pet : ${pets}">
-
-                    <div>
-                        <div class="pet-header">
-                            <h3 th:text="${pet.nome}">Nome do Pet</h3>
-                            <span class="badge" th:text="${pet.especie}">Espécie</span>
-                        </div>
-
-                        <div class="pet-info">
-                            <p>
-                                <strong>Raça:</strong>
-                                <span th:text="${pet.raca}">Raça</span>
-                            </p>
-
-                            <p>
-                                <strong>Idade:</strong>
-                                <span th:text="${pet.idade}">0</span> anos
-                            </p>
-
-                            <p>
-                                <strong>Porte:</strong>
-                                <span th:text="${pet.porte}">Porte</span>
-                            </p>
-
-                            <div class="obs-container" th:if="${pet.observacoes != null and !pet.observacoes.isEmpty()}">
-                                <p>
-                                    <strong>Obs:</strong>
-                                    <span th:text="${pet.observacoes}">Observações</span>
-                                </p>
-                            </div>
-                        </div>
+                <div>
+                    <div class="pet-header">
+                        <h3 th:text="${pet.nome}">Nome do Pet</h3>
+                        <span class="badge" th:text="${pet.especie}">Espécie</span>
                     </div>
 
-                    <a th:href="@{/pets/{id}(id=${pet.id})}" class="ver-mais">
-                        Ver detalhes &rarr;
-                    </a>
+                    <div class="pet-info">
+                        <p>
+                            <strong>Raça:</strong>
+                            <span th:text="${pet.raca}">Raça</span>
+                        </p>
+                        <p>
+                            <strong>Idade:</strong>
+                            <span th:text="${pet.idade}">0</span> anos
+                        </p>
+                        <p>
+                            <strong>Porte:</strong>
+                            <span th:text="${pet.porte}">Porte</span>
+                        </p>
 
+                        <div class="obs-container" th:if="${pet.observacoes != null and !pet.observacoes.isEmpty()}">
+                            <p>
+                                <strong>Obs:</strong>
+                                <span th:text="${pet.observacoes}">Observações</span>
+                            </p>
+                        </div>
+                    </div>
                 </div>
-
-            </div>
-
-            <div class="sem-pets" th:if="${pets == null or pets.isEmpty()}">
-
-                <h3>Nenhum pet cadastrado</h3>
-
-                <p>
-                    Cadastre seu primeiro pet para começar a usar o PetKeep.
-                </p>
-
-                <a href="/pets/cadastro" class="btn-cadastrar">
-                    Cadastrar meu primeiro pet
+                <a th:href="@{/pets/{id}(id=${pet.id})}" class="ver-mais">
+                    Ver detalhes &rarr;
                 </a>
-
             </div>
+        </div>
+        <div class="sem-pets" th:if="${pets == null or pets.isEmpty()}">
 
-        </main>
+            <h3>Nenhum pet cadastrado</h3>
+            <p>
+                Cadastre seu primeiro pet para começar a usar o PetKeep.
+            </p>
+            <a href="/pets/cadastro" class="btn-cadastrar">
+                Cadastrar meu primeiro pet
+            </a>
 
-    </body>
+        </div>
+
+    </main>
+
+    <footer>
+        PetKeep &copy; 2026 — Seu ecossistema de cuidado animal
+    </footer>
+
+</body>
 </html>

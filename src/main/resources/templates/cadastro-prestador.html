@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>PetKeep - Cadastro de Prestador</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: Arial, sans-serif;
+            }
+
+            body {
+                min-height: 100vh;
+                background: #f0f4f1;
+                color: #2d3732;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 30px 20px;
+            }
+
+            .container {
+                width: 100%;
+                max-width: 650px;
+                background: #ffffff;
+                border: 1px solid #cbd5e1;
+                border-radius: 12px;
+                padding: 40px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            }
+
+            h1 {
+                color: #1b4332;
+                margin-bottom: 8px;
+            }
+
+            .subtitle {
+                color: #64748b;
+                margin-bottom: 30px;
+            }
+
+            .section {
+                margin-bottom: 28px;
+            }
+
+            .section h2 {
+                color: #1b4332;
+                font-size: 18px;
+                margin-bottom: 15px;
+            }
+
+            .checkboxes {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+            }
+
+            .checkbox {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                padding: 12px;
+                background: #f0f4f1;
+                border-radius: 6px;
+            }
+
+            .checkbox input {
+                width: 17px;
+                height: 17px;
+            }
+
+            label {
+                font-weight: bold;
+                color: #4a5568;
+            }
+
+            textarea,
+            input[type="number"] {
+                width: 100%;
+                padding: 12px;
+                margin-top: 8px;
+                border: 1px solid #cbd5e1;
+                border-radius: 6px;
+                outline: none;
+                font-size: 14px;
+            }
+
+            textarea {
+                min-height: 120px;
+                resize: vertical;
+            }
+
+            .button {
+                width: 100%;
+                padding: 13px;
+                border: none;
+                border-radius: 6px;
+                background: #1b4332;
+                color: white;
+                font-weight: bold;
+                font-size: 15px;
+                cursor: pointer;
+            }
+
+            .button:hover {
+                background: #143d2d;
+            }
+
+            @media (max-width: 600px) {
+                .container {
+                    padding: 25px 20px;
+                }
+
+                .checkboxes {
+                    grid-template-columns: 1fr;
+                }
+            }
+        </style>
+    </head>
+    <body>
+
+        <div class="container">
+            <h1>Cadastro de Prestador</h1>
+            <p class="subtitle">
+                Configure os serviços que você oferece e os portes de animais que aceita.
+            </p>
+
+            <form th:action="@{/cadastro-prestador}" th:object="${prestador}" method="post">
+
+                <div class="section">
+                    <h2>Serviços oferecidos</h2>
+
+                    <div class="checkboxes">
+                        <label class="checkbox">
+                            <input type="checkbox" th:field="*{aceitaHospedagem}">
+                            Hospedagem
+                        </label>
+
+                        <label class="checkbox">
+                            <input type="checkbox" th:field="*{aceitaPasseio}">
+                            Passeio
+                        </label>
+
+                        <label class="checkbox">
+                            <input type="checkbox" th:field="*{aceitaBanho}">
+                            Banho
+                        </label>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2>Portes aceitos</h2>
+
+                    <div class="checkboxes">
+                        <label class="checkbox">
+                            <input type="checkbox" th:field="*{aceitaPequeno}">
+                            Pequeno
+                        </label>
+
+                        <label class="checkbox">
+                            <input type="checkbox" th:field="*{aceitaMedio}">
+                            Médio
+                        </label>
+
+                        <label class="checkbox">
+                            <input type="checkbox" th:field="*{aceitaGrande}">
+                            Grande
+                        </label>
+
+                        <label class="checkbox">
+                            <input type="checkbox" th:field="*{aceitaGigante}">
+                            Gigante
+                        </label>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2>Informações do serviço</h2>
+
+                    <label for="valorHora">Valor por hora</label>
+                    <input type="number" id="valorHora" th:field="*{valorHora}" step="0.01" min="0" placeholder="Ex: 25.00" required>
+
+                    <br><br>
+
+                    <label for="descricao">Descrição</label>
+                    <textarea id="descricao" th:field="*{descricao}" maxlength="500" placeholder="Fale um pouco sobre os seus serviços..."></textarea>
+                </div>
+
+                <button type="submit" class="button">
+                    Finalizar cadastro
+                </button>
+
+            </form>
+        </div>
+
+    </body>
+</html>

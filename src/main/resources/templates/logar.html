@@ -21,6 +21,100 @@
             background: #f0f4f1;
             color: #2d3732;
             padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bg-paws {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .paw {
+            position: absolute;
+            bottom: -80px;
+            width: 40px;
+            height: 40px;
+
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="%231b4332"><path d="M256 224c-53 0-96 43-96 96 0 42.6 28.3 78.6 67.2 90.3 9.3 2.8 19.3 4.3 28.8 4.3s19.5-1.5 28.8-4.3c38.9-11.7 67.2-47.7 67.2-90.3 0-53-43-96-96-96zm-128-48c26.5 0 48-21.5 48-48s-21.5-48-48-48-48 21.5-48 48 21.5 48 48 48zm256 0c26.5 0 48-21.5 48-48s-21.5-48-48-48-48 21.5-48 48 21.5 48 48 48zm-208-32c22.1 0 40-17.9 40-40s-17.9-40-40-40-40 17.9-40 40 17.9 40 40 40zm160 0c22.1 0 40-17.9 40-40s-17.9-40-40-40-40 17.9-40 40 17.9 40 40 40z"/></svg>');
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.12;
+            animation: floatPaw 14s infinite linear;
+        }
+
+        .paw:nth-child(1) {
+            left: 8%;
+            width: 35px;
+            height: 35px;
+            animation-duration: 12s;
+            animation-delay: 0s;
+        }
+
+        .paw:nth-child(2) {
+            left: 22%;
+            width: 50px;
+            height: 50px;
+            animation-duration: 16s;
+            animation-delay: 3s;
+        }
+
+        .paw:nth-child(3) {
+            left: 38%;
+            width: 30px;
+            height: 30px;
+            animation-duration: 10s;
+            animation-delay: 1s;
+        }
+
+        .paw:nth-child(4) {
+            left: 55%;
+            width: 45px;
+            height: 45px;
+            animation-duration: 15s;
+            animation-delay: 5s;
+        }
+
+        .paw:nth-child(5) {
+            left: 72%;
+            width: 38px;
+            height: 38px;
+            animation-duration: 13s;
+            animation-delay: 2s;
+        }
+
+        .paw:nth-child(6) {
+            left: 88%;
+            width: 52px;
+            height: 52px;
+            animation-duration: 17s;
+            animation-delay: 4s;
+        }
+
+        @keyframes floatPaw {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 0.12;
+            }
+
+            90% {
+                opacity: 0.12;
+            }
+
+            100% {
+                transform: translateY(-110vh) rotate(360deg);
+                opacity: 0;
+            }
         }
 
         .container {
@@ -32,7 +126,9 @@
             border-radius: 12px;
             overflow: hidden;
             border: 1px solid #cbd5e1;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            position: relative;
+            z-index: 2;
         }
 
         .left {
@@ -134,6 +230,16 @@
             border: 1px solid #f8b4b4;
         }
 
+        .success {
+            background: #e8f5e9;
+            color: #1b5e20;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            border: 1px solid #a5d6a7;
+        }
+
         .register {
             margin-top: 24px;
             text-align: center;
@@ -170,10 +276,20 @@
 
 <body>
 
+<div class="bg-paws">
+    <div class="paw"></div>
+    <div class="paw"></div>
+    <div class="paw"></div>
+    <div class="paw"></div>
+    <div class="paw"></div>
+    <div class="paw"></div>
+</div>
+
 <div class="container">
 
     <div class="left">
         <h1>PetKeep</h1>
+
         <p>
             O espaço ideal para organizar a rotina, os cuidados e a saúde do seu pet com praticidade e carinho.
         </p>
@@ -184,13 +300,19 @@
         <h2>Bem-vindo de volta!</h2>
 
         <p class="subtitle">
-            Acesse sua conta para continuar.
+            Acessee sua conta para continuar.
         </p>
 
         <div
             class="error"
             th:if="${errorMessage}"
             th:text="${errorMessage}">
+        </div>
+
+        <div
+            class="success"
+            th:if="${successMessage}"
+            th:text="${successMessage}">
         </div>
 
         <form th:action="@{/logar}" th:object="${user}" method="post">
