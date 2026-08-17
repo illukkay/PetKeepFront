@@ -50,6 +50,24 @@ public class TarefaService {
                 .retrieve()
                 .body(Tarefa.class);
     }
+
+    public List<Tarefa> listarPorTutor(Long tutorId) {
+        Tarefa[] tarefas = restClient.get()
+                .uri("/tarefas/tutor/" + tutorId)
+                .retrieve()
+                .body(Tarefa[].class);
+
+        return Arrays.asList(tarefas);
+    }
+
+    public List<Tarefa> listarEmAndamento(Long prestadorId) {
+        Tarefa[] tarefas = restClient.get()
+                .uri("/tarefas/andamento/" + prestadorId)
+                .retrieve()
+                .body(Tarefa[].class);
+
+        return Arrays.asList(tarefas);
+    }
     @GetMapping
     public String tarefas(HttpSession session) {
 

@@ -156,6 +156,17 @@
             background: #dce8df;
         }
 
+        .erro {
+            background: #fde8e8;
+            color: #9b1c1c;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            border: 1px solid #f8b4b4;
+            text-align: center;
+        }
+
         footer {
             text-align: center;
             color: #64748b;
@@ -193,6 +204,7 @@
         <a href="/pets">Meus Pets</a>
         <a href="/tarefas">Tarefas</a>
         <a href="/perfil">Perfil</a>
+    <a href="/logout">Sair</a>
     </nav>
 </header>
 
@@ -205,11 +217,20 @@
 
     <section class="form-card">
 
-        <form th:action="@{/tarefas/cadastro}" th:object="${tarefa}" method="post">
+        <div class="erro" th:if="${errorMessage}" th:text="${errorMessage}"></div>
+
+        <div class="erro" th:if="${#lists.isEmpty(pets)}">
+            Você ainda não tem nenhum pet cadastrado. <a href="/pets/cadastro">Cadastre um pet</a> antes de criar uma tarefa.
+        </div>
+
+        <form th:action="@{/tarefas/cadastro}" th:object="${tarefa}" method="post" th:if="${not #lists.isEmpty(pets)}">
 
             <div class="form-group">
-                <label for="pet">ID do Pet</label>
-                <input type="number" id="pet" th:field="*{pet.id}" placeholder="Digite o ID do pet" required>
+                <label for="pet">Selecione o pet</label>
+                <select id="pet" th:field="*{pet.id}" required>
+                    <option value="">Selecione...</option>
+                    <option th:each="p : ${pets}" th:value="${p.id}" th:text="${p.nome}">Nome do pet</option>
+                </select>
             </div>
 
             <div class="form-group">

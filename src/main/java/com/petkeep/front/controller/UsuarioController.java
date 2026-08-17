@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestClientResponseException;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
 
@@ -25,7 +25,7 @@ public class UsuarioController {
     @Autowired
     private PrestadorService prestadorService;
 
-    private String extrairMensagemDeErro(HttpClientErrorException e) {
+    private String extrairMensagemDeErro(RestClientResponseException e) {
         try {
             ObjectMapper mapper = new ObjectMapper();
             JsonNode root = mapper.readTree(e.getResponseBodyAsString());
@@ -71,7 +71,7 @@ public String PaginaLogar(HttpSession session, Model model) {
             session.setAttribute("token", token);
 
             return "redirect:/";
-        } catch (HttpClientErrorException e) {
+        } catch (RestClientResponseException e) {
             String msg = extrairMensagemDeErro(e);
 
             model.addAttribute("errorMessage", msg);
@@ -101,7 +101,7 @@ public String PaginaLogar(HttpSession session, Model model) {
 
             return "redirect:/";
 
-        } catch (HttpClientErrorException e) {
+        } catch (RestClientResponseException e) {
             String msg = extrairMensagemDeErro(e);
 
             model.addAttribute("errorMessage", msg);
@@ -118,7 +118,7 @@ public String PaginaLogar(HttpSession session, Model model) {
     }
 
     @PostMapping("/cadastro-prestador")
-public String cadastrarPrestador(@ModelAttribute Prestador prestador, HttpSession session) {
+public String cadastrarPrestador(@ModelAttribute Prestador prestador, HttpSession session, Model model) {
     String token = (String) session.getAttribute("token");
 
     if (token == null) {
@@ -129,8 +129,45 @@ public String cadastrarPrestador(@ModelAttribute Prestador prestador, HttpSessio
 
     prestador.setUsuario(usuario);
 
-    auth.cadastrarPrestador(prestador, token);
+    try {
+        auth.cadastrarPrestador(prestador, token);
 
-    return "redirect:/";
+        return "redirect:/";
+
+    } catch (RestClientResponseException e) {
+        String msg = extrairMensagemDeErro(e);
+
+        model.addAttribute("errorMessage", msg);
+        model.addAttribute("prestador", prestador);
+
+        return "cadastro-prestador";
+    }
 }
+
+    @GetMapping("/perfil")
+    public String perfil(HttpSession session, Model model) {
+        String token = (String) session.getAttribute("token");
+
+        if (token == null) {
+            return "redirect:/logar";
+        }
+
+        try {
+            Usuario usuarioToken = auth.usuarioDoToken(token);
+            Usuario usuario = auth.buscarUsuario(usuarioToken.getId());
+
+            model.addAttribute("usuario", usuario);
+
+        } catch (RestClientResponseException e) {
+            model.addAttribute("errorMessage", extrairMensagemDeErro(e));
+        }
+
+        return "perfil";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/logar";
+    }
 }

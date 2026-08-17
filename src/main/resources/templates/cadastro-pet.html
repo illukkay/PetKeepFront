@@ -143,6 +143,17 @@
                 background-color: #2d6a4f;
             }
 
+            .erro {
+                background-color: #fde8e8;
+                color: #9b1c1c;
+                padding: 12px;
+                border-radius: 6px;
+                margin-bottom: 20px;
+                font-size: 14px;
+                border: 1px solid #f8b4b4;
+                text-align: center;
+            }
+
             @media (max-width: 600px) {
                 header {
                     padding: 20px;
@@ -183,6 +194,8 @@
                 <p class="descricao">
                     Preencha os dados do seu pet para cadastrá-lo no PetKeep.
                 </p>
+
+                <div class="erro" th:if="${errorMessage}" th:text="${errorMessage}"></div>
 
                 <form th:action="@{/pets/cadastro}"
                       th:object="${pet}"

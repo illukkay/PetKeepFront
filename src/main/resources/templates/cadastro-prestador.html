@@ -109,6 +109,17 @@
                 background: #143d2d;
             }
 
+            .erro {
+                background: #fde8e8;
+                color: #9b1c1c;
+                padding: 12px;
+                border-radius: 6px;
+                margin-bottom: 20px;
+                font-size: 14px;
+                border: 1px solid #f8b4b4;
+                text-align: center;
+            }
+
             @media (max-width: 600px) {
                 .container {
                     padding: 25px 20px;
@@ -127,6 +138,8 @@
             <p class="subtitle">
                 Configure os serviços que você oferece e os portes de animais que aceita.
             </p>
+
+            <div class="erro" th:if="${errorMessage}" th:text="${errorMessage}"></div>
 
             <form th:action="@{/cadastro-prestador}" th:object="${prestador}" method="post">
 

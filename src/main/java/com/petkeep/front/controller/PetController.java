@@ -1,9 +1,9 @@
 package com.petkeep.front.controller;
 
 import com.petkeep.front.model.Pet;
+import com.petkeep.front.service.AuthService;
 import com.petkeep.front.service.PetService;
 import jakarta.servlet.http.HttpSession;
-import java.util.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.client.RestClientResponseException;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
 
@@ -22,6 +23,23 @@ public class PetController {
     @Autowired
     private PetService petService;
 
+    @Autowired
+    private AuthService auth;
+
+    private String extrairMensagemDeErro(RestClientResponseException e) {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode root = mapper.readTree(e.getResponseBodyAsString());
+
+            if (root.has("message")) {
+                return root.get("message").asText();
+            }
+        } catch (Exception ex) {
+        }
+
+        return "Ocorreu um erro inesperado na comunicação.";
+    }
+
     private Long pegarUsuarioId(HttpSession session) {
         String token = (String) session.getAttribute("token");
 
@@ -30,17 +48,7 @@ public class PetController {
         }
 
         try {
-            String[] partes = token.split("\\.");
-
-            String payload = new String(
-                    Base64.getUrlDecoder().decode(partes[1])
-            );
-
-            ObjectMapper mapper = new ObjectMapper();
-            JsonNode json = mapper.readTree(payload);
-
-            return json.get("id").asLong();
-
+            return auth.usuarioDoToken(token).getId();
         } catch (Exception e) {
             return null;
         }
@@ -77,7 +85,8 @@ public class PetController {
     @PostMapping("/cadastro")
     public String cadastrar(
             @ModelAttribute Pet pet,
-            HttpSession session) {
+            HttpSession session,
+            Model model) {
 
         Long usuarioId = pegarUsuarioId(session);
 
@@ -91,9 +100,17 @@ public class PetController {
 
         pet.getTutor().setId(usuarioId);
 
-        petService.cadastrar(pet);
+        try {
+            petService.cadastrar(pet);
 
-        return "redirect:/pets";
+            return "redirect:/pets";
+
+        } catch (RestClientResponseException e) {
+            model.addAttribute("errorMessage", extrairMensagemDeErro(e));
+            model.addAttribute("pet", pet);
+
+            return "cadastro-pet";
+        }
     }
 
     @GetMapping("/{petId}")

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PetKeep - Tarefas Disponíveis</title>
+    <title>PetKeep - Meu Perfil</title>
     <style>
         * {
             margin: 0;
@@ -57,14 +57,13 @@
         }
 
         main {
-            max-width: 1050px;
+            max-width: 750px;
             width: 100%;
             margin: 35px auto;
             padding: 0 20px;
             flex: 1;
         }
 
-        
         .back-nav {
             margin-bottom: 20px;
         }
@@ -101,7 +100,7 @@
 
         .title-section h1 {
             font-size: 30px;
-            margin-bottom: 10px;
+            margin-bottom: 6px;
         }
 
         .title-section p {
@@ -109,45 +108,24 @@
             font-size: 15px;
         }
 
-        .tasks {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .task-card {
+        .card {
             background: #ffffff;
             border: 1px solid #cbd5e1;
             border-radius: 10px;
-            padding: 25px;
-        }
-
-        .task-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            padding: 30px;
             margin-bottom: 20px;
         }
 
-        .task-header h2 {
+        .card h2 {
             color: #1b4332;
-            font-size: 21px;
+            font-size: 18px;
+            margin-bottom: 18px;
         }
 
-        .score {
-            background: #e8f3eb;
-            color: #1b4332;
-            padding: 7px 12px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: bold;
-        }
-
-        .task-info {
+        .info-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 15px;
-            margin-bottom: 20px;
         }
 
         .info-item {
@@ -170,63 +148,24 @@
             font-weight: bold;
         }
 
-        .description {
-            color: #64748b;
-            font-size: 14px;
-            line-height: 1.5;
-            margin-bottom: 20px;
-        }
-
-        .task-actions {
+        .reputacao {
             display: flex;
+            align-items: center;
             gap: 10px;
+            background: #f0f4f1;
+            padding: 16px;
+            border-radius: 7px;
         }
 
-        .button {
-            display: inline-block;
-            padding: 11px 18px;
-            background: #1b4332;
-            color: white;
-            border-radius: 6px;
-            border: none;
-            text-decoration: none;
+        .reputacao .nota {
+            font-size: 26px;
             font-weight: bold;
-            font-size: 14px;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .button:hover {
-            background: #143426;
-        }
-
-        .empty {
-            background: #ffffff;
-            border: 1px solid #cbd5e1;
-            border-radius: 10px;
-            padding: 40px;
-            text-align: center;
-        }
-
-        .empty h2 {
             color: #1b4332;
-            margin-bottom: 10px;
         }
 
-        .empty p {
-            color: #64748b;
-        }
-
-        .back {
-            display: inline-block;
-            margin-top: 25px;
-            color: #1b4332;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .back:hover {
-            text-decoration: underline;
+        .reputacao .estrela {
+            color: #f4b400;
+            font-size: 20px;
         }
 
         .erro {
@@ -255,14 +194,8 @@
                 padding: 0 20px;
             }
 
-            .task-info {
+            .info-grid {
                 grid-template-columns: 1fr;
-            }
-
-            .task-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
             }
         }
     </style>
@@ -274,15 +207,14 @@
     <nav class="nav">
         <a href="/">Início</a>
         <a href="/pets">Meus Pets</a>
-        <a href="/tarefas" class="active">Tarefas</a>
-        <a href="/perfil">Perfil</a>
+        <a href="/tarefas">Tarefas</a>
+        <a href="/perfil" class="active">Perfil</a>
     <a href="/logout">Sair</a>
     </nav>
 </header>
 
 <main>
 
-    <!-- Botão Voltar ao Início -->
     <div class="back-nav">
         <a href="/" class="btn-back">
             &larr; Voltar ao Início
@@ -290,70 +222,58 @@
     </div>
 
     <section class="title-section">
-        <h1>Tarefas Disponíveis</h1>
-        <p>Confira as tarefas compatíveis com o seu perfil.</p>
+        <h1 th:text="${usuario != null ? usuario.nome : 'Meu Perfil'}">Meu Perfil</h1>
+        <p>Suas informações de cadastro no PetKeep.</p>
     </section>
 
     <div class="erro" th:if="${errorMessage}" th:text="${errorMessage}"></div>
 
-    <section class="tasks" th:if="${not #lists.isEmpty(tarefas)}">
+    <section class="card" th:if="${usuario != null}">
+        <h2>Dados pessoais</h2>
 
-        <div class="task-card" th:each="match : ${tarefas}">
+        <div class="info-grid">
 
-            <div class="task-header">
-                <h2 th:text="${match.tarefa.pet.nome}">Nome do pet</h2>
-
-                <span class="score">
-                    Match:
-                    <span th:text="${match.score}">0</span>%
-                </span>
+            <div class="info-item">
+                <strong>Nome</strong>
+                <span th:text="${usuario.nome}">Nome</span>
             </div>
 
-            <div class="task-info">
-
-                <div class="info-item">
-                    <strong>Serviço</strong>
-                    <span th:text="${match.tarefa.tipoServico}">Passeio</span>
-                </div>
-
-                <div class="info-item">
-                    <strong>Valor</strong>
-                    <span>R$ <span th:text="${match.tarefa.valor}">0,00</span></span>
-                </div>
-
-                <div class="info-item">
-                    <strong>Data</strong>
-                    <span th:text="${match.tarefa.dataServico}">Data</span>
-                </div>
-
-                <div class="info-item">
-                    <strong>Status</strong>
-                    <span th:text="${match.tarefa.status}">ABERTA</span>
-                </div>
-
+            <div class="info-item">
+                <strong>Email</strong>
+                <span th:text="${usuario.email}">email@email.com</span>
             </div>
 
-            <p class="description">
-                <strong>Descrição:</strong>
-                <span th:text="${match.tarefa.descricao}">Descrição da tarefa</span>
-            </p>
+            <div class="info-item">
+                <strong>Telefone</strong>
+                <span th:text="${usuario.telefone}">Telefone</span>
+            </div>
 
-            <div class="task-actions">
-                <form th:action="@{/tarefas/aceitar/{id}(id=${match.tarefa.id})}" method="post">
-                    <button type="submit" class="button">Aceitar tarefa</button>
-                </form>
+            <div class="info-item">
+                <strong>Tipo de usuário</strong>
+                <span th:text="${usuario.tipoUsuario}">TUTOR</span>
+            </div>
+
+            <div class="info-item">
+                <strong>Tipo de residência</strong>
+                <span th:text="${usuario.tipoResidencia}">CASA</span>
+            </div>
+
+            <div class="info-item">
+                <strong>Endereço</strong>
+                <span th:text="${usuario.rua + ', ' + usuario.bairro + ' - ' + usuario.cidade + '/' + usuario.estado}">Endereço</span>
             </div>
 
         </div>
-
     </section>
 
-    <section class="empty" th:if="${#lists.isEmpty(tarefas)}">
-        <h2>Nenhuma tarefa encontrada</h2>
-        <p>No momento não existem tarefas compatíveis com o seu perfil.</p>
-    </section>
+    <section class="card" th:if="${usuario != null}">
+        <h2>Reputação</h2>
 
-    <a href="/tarefas" class="back">&larr; Voltar para tarefas</a>
+        <div class="reputacao">
+            <span class="estrela">&#9733;</span>
+            <span class="nota" th:text="${usuario.reputacaoMedia}">5.00</span>
+        </div>
+    </section>
 
 </main>
 

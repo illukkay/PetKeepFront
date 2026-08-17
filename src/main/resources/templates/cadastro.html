@@ -316,7 +316,7 @@
 
                 <div class="campo col-6">
                     <label for="telefone">Telefone / WhatsApp</label>
-                    <input type="text" id="telefone" th:field="*{telefone}" placeholder="(00) 00000-0000" required>
+                    <input type="text" id="telefone" th:field="*{telefone}" placeholder="Somente números, ex: 11912345678" pattern="\d+" inputmode="numeric" required>
                 </div>
             </div>
 

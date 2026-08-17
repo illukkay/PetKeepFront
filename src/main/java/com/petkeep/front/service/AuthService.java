@@ -44,6 +44,13 @@ public class AuthService {
                 .body(String.class);
     }
 
+    public Usuario buscarUsuario(Long id) {
+        return restclient.get()
+                .uri("/user/" + id)
+                .retrieve()
+                .body(Usuario.class);
+    }
+
     public Usuario usuarioDoToken(String token) {
         try {
             String[] partes = token.split("\\.");
