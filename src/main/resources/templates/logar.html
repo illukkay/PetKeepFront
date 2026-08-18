@@ -5,12 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PetKeep - Login</title>
 
+    <!-- Google Fonts & Lucide Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
     <style>
+        :root {
+            --primary: #1b4332;
+            --primary-hover: #2d6a4f;
+            --primary-light: rgba(27, 67, 50, 0.08);
+            --bg-body: #f0f4f1;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #cbd5e1;
+            --card-bg: #ffffff;
+            --radius-lg: 16px;
+            --radius-md: 8px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: Arial, sans-serif;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
         }
 
         body {
@@ -18,15 +38,16 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #f0f4f1;
-            color: #2d3732;
+            background-color: var(--bg-body);
+            color: var(--text-main);
             padding: 20px;
             position: relative;
-            overflow: hidden;
+            overflow-x: hidden;
         }
 
+        /* Fundo Animado com Patinhas */
         .bg-paws {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
@@ -39,236 +60,308 @@
         .paw {
             position: absolute;
             bottom: -80px;
-            width: 40px;
-            height: 40px;
-
             background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="%231b4332"><path d="M256 224c-53 0-96 43-96 96 0 42.6 28.3 78.6 67.2 90.3 9.3 2.8 19.3 4.3 28.8 4.3s19.5-1.5 28.8-4.3c38.9-11.7 67.2-47.7 67.2-90.3 0-53-43-96-96-96zm-128-48c26.5 0 48-21.5 48-48s-21.5-48-48-48-48 21.5-48 48 21.5 48 48 48zm256 0c26.5 0 48-21.5 48-48s-21.5-48-48-48-48 21.5-48 48 21.5 48 48 48zm-208-32c22.1 0 40-17.9 40-40s-17.9-40-40-40-40 17.9-40 40 17.9 40 40 40zm160 0c22.1 0 40-17.9 40-40s-17.9-40-40-40-40 17.9-40 40 17.9 40 40 40z"/></svg>');
             background-size: contain;
             background-repeat: no-repeat;
-            opacity: 0.12;
-            animation: floatPaw 14s infinite linear;
+            opacity: 0.08;
+            animation: floatPaw 16s infinite linear;
         }
 
-        .paw:nth-child(1) {
-            left: 8%;
-            width: 35px;
-            height: 35px;
-            animation-duration: 12s;
-            animation-delay: 0s;
-        }
-
-        .paw:nth-child(2) {
-            left: 22%;
-            width: 50px;
-            height: 50px;
-            animation-duration: 16s;
-            animation-delay: 3s;
-        }
-
-        .paw:nth-child(3) {
-            left: 38%;
-            width: 30px;
-            height: 30px;
-            animation-duration: 10s;
-            animation-delay: 1s;
-        }
-
-        .paw:nth-child(4) {
-            left: 55%;
-            width: 45px;
-            height: 45px;
-            animation-duration: 15s;
-            animation-delay: 5s;
-        }
-
-        .paw:nth-child(5) {
-            left: 72%;
-            width: 38px;
-            height: 38px;
-            animation-duration: 13s;
-            animation-delay: 2s;
-        }
-
-        .paw:nth-child(6) {
-            left: 88%;
-            width: 52px;
-            height: 52px;
-            animation-duration: 17s;
-            animation-delay: 4s;
-        }
+        .paw:nth-child(1) { left: 8%; width: 35px; height: 35px; animation-duration: 12s; animation-delay: 0s; }
+        .paw:nth-child(2) { left: 22%; width: 50px; height: 50px; animation-duration: 18s; animation-delay: 3s; }
+        .paw:nth-child(3) { left: 38%; width: 30px; height: 30px; animation-duration: 11s; animation-delay: 1s; }
+        .paw:nth-child(4) { left: 55%; width: 45px; height: 45px; animation-duration: 15s; animation-delay: 5s; }
+        .paw:nth-child(5) { left: 72%; width: 38px; height: 38px; animation-duration: 13s; animation-delay: 2s; }
+        .paw:nth-child(6) { left: 88%; width: 52px; height: 52px; animation-duration: 19s; animation-delay: 4s; }
 
         @keyframes floatPaw {
-            0% {
-                transform: translateY(0) rotate(0deg);
-                opacity: 0;
-            }
-
-            10% {
-                opacity: 0.12;
-            }
-
-            90% {
-                opacity: 0.12;
-            }
-
-            100% {
-                transform: translateY(-110vh) rotate(360deg);
-                opacity: 0;
-            }
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.08; }
+            90% { opacity: 0.08; }
+            100% { transform: translateY(-115vh) rotate(360deg); opacity: 0; }
         }
 
+        /* Container Principal */
         .container {
             width: 100%;
-            max-width: 880px;
-            min-height: 520px;
+            max-width: 920px;
+            min-height: 560px;
             display: flex;
-            background: #ffffff;
-            border-radius: 12px;
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
             overflow: hidden;
-            border: 1px solid #cbd5e1;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.07);
             position: relative;
             z-index: 2;
         }
 
+        /* Painel Esquerdo */
         .left {
             width: 45%;
-            background: #1b4332;
+            background: linear-gradient(145deg, #122f23 0%, #1b4332 100%);
             color: white;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            padding: 50px 40px;
+            justify-content: space-between;
+            padding: 48px 40px;
         }
 
-        .left h1 {
-            font-size: 36px;
-            margin-bottom: 16px;
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 28px;
+            font-weight: 700;
             letter-spacing: -0.5px;
         }
 
-        .left p {
+        .brand-logo i {
+            width: 32px;
+            height: 32px;
+        }
+
+        .left-content h1 {
+            font-size: 30px;
+            font-weight: 700;
+            line-height: 1.25;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .left-content p {
             font-size: 15px;
             line-height: 1.6;
+            color: #cbd5e1;
+        }
+
+        .features-list {
+            list-style: none;
+            margin-top: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .features-list li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
             color: #e2e8f0;
         }
 
+        .features-list i {
+            width: 18px;
+            height: 18px;
+            color: #52b788;
+        }
+
+        .left-footer {
+            font-size: 13px;
+            color: #94a3b8;
+        }
+
+        /* Painel Direito */
         .right {
             width: 55%;
-            padding: 50px 45px;
+            padding: 48px 44px;
             display: flex;
             flex-direction: column;
             justify-content: center;
         }
 
-        .right h2 {
-            font-size: 26px;
-            color: #1b4332;
+        .right-header {
+            margin-bottom: 32px;
+        }
+
+        .right-header h2 {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: -0.3px;
             margin-bottom: 6px;
         }
 
         .subtitle {
-            color: #64748b;
+            color: var(--text-muted);
             font-size: 14px;
-            margin-bottom: 28px;
         }
 
+        /* Estilização dos Inputs e Ícones */
         .form-group {
-            margin-bottom: 18px;
+            margin-bottom: 20px;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 6px;
-            color: #2d3732;
-            font-size: 14px;
-            font-weight: bold;
+            margin-bottom: 8px;
+            color: var(--text-main);
+            font-size: 13px;
+            font-weight: 600;
         }
 
-        .form-group input {
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-icon-left {
+            position: absolute;
+            left: 14px;
+            width: 18px;
+            height: 18px;
+            color: #94a3b8;
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        .input-wrapper input {
             width: 100%;
-            padding: 12px 14px;
-            border: 1px solid #cbd5e1;
-            border-radius: 6px;
+            padding: 12px 42px 12px 42px; /* Margem interna para o texto não ficar em cima dos ícones */
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
             font-size: 14px;
             outline: none;
-            transition: border-color 0.2s, box-shadow 0.2s;
-            background-color: #fafafa;
+            background-color: #f8fafc;
+            color: var(--text-main);
+            transition: var(--transition);
         }
 
-        .form-group input:focus {
-            border-color: #1b4332;
+        .input-wrapper input:focus {
+            border-color: var(--primary);
             background-color: #ffffff;
-            box-shadow: 0 0 0 3px rgba(27, 67, 50, 0.1);
+            box-shadow: 0 0 0 3px var(--primary-light);
         }
 
+        /* Botão Olho (Senha) */
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            background: none;
+            border: none;
+            color: #94a3b8;
+            cursor: pointer;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            z-index: 3;
+        }
+
+        .toggle-password:hover {
+            color: var(--text-main);
+        }
+
+        .toggle-password i {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Botão Primário */
         .button {
             width: 100%;
-            padding: 12px;
+            padding: 13px;
             border: none;
-            border-radius: 6px;
-            background: #1b4332;
+            border-radius: var(--radius-md);
+            background: var(--primary);
             color: white;
             font-size: 15px;
-            font-weight: bold;
+            font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.2s;
+            transition: var(--transition);
             margin-top: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
         .button:hover {
-            background: #2d6a4f;
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(27, 67, 50, 0.2);
+        }
+
+        .button:active {
+            transform: translateY(0);
+        }
+
+        .button i {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Alertas */
+        .alert {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 14px;
+            border-radius: var(--radius-md);
+            margin-bottom: 20px;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+
+        .alert i {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
         }
 
         .error {
-            background: #fde8e8;
-            color: #9b1c1c;
-            padding: 12px;
-            border-radius: 6px;
-            margin-bottom: 20px;
-            font-size: 14px;
-            border: 1px solid #f8b4b4;
+            background: #fef2f2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
         }
 
         .success {
-            background: #e8f5e9;
-            color: #1b5e20;
-            padding: 12px;
-            border-radius: 6px;
-            margin-bottom: 20px;
-            font-size: 14px;
-            border: 1px solid #a5d6a7;
+            background: #f0fdf4;
+            color: #166534;
+            border: 1px solid #bbf7d0;
         }
 
+        /* Link de Registro */
         .register {
-            margin-top: 24px;
+            margin-top: 28px;
             text-align: center;
-            color: #64748b;
+            color: var(--text-muted);
             font-size: 14px;
         }
 
         .register a {
-            color: #1b4332;
+            color: var(--primary);
             text-decoration: none;
-            font-weight: bold;
+            font-weight: 600;
+            transition: var(--transition);
         }
 
         .register a:hover {
             text-decoration: underline;
         }
 
-        @media (max-width: 700px) {
+        @media (max-width: 768px) {
             .container {
                 min-height: auto;
+                flex-direction: column;
             }
 
             .left {
+                width: 100%;
+                padding: 32px 28px;
+                gap: 24px;
+            }
+
+            .left-footer, .features-list {
                 display: none;
             }
 
             .right {
                 width: 100%;
-                padding: 35px 25px;
+                padding: 32px 28px;
             }
         }
     </style>
@@ -276,85 +369,128 @@
 
 <body>
 
-<div class="bg-paws">
-    <div class="paw"></div>
-    <div class="paw"></div>
-    <div class="paw"></div>
-    <div class="paw"></div>
-    <div class="paw"></div>
-    <div class="paw"></div>
-</div>
-
-<div class="container">
-
-    <div class="left">
-        <h1>PetKeep</h1>
-
-        <p>
-            O espaço ideal para organizar a rotina, os cuidados e a saúde do seu pet com praticidade e carinho.
-        </p>
+    <div class="bg-paws">
+        <div class="paw"></div>
+        <div class="paw"></div>
+        <div class="paw"></div>
+        <div class="paw"></div>
+        <div class="paw"></div>
+        <div class="paw"></div>
     </div>
 
-    <div class="right">
+    <div class="container">
 
-        <h2>Bem-vindo de volta!</h2>
-
-        <p class="subtitle">
-            Acessee sua conta para continuar.
-        </p>
-
-        <div
-            class="error"
-            th:if="${errorMessage}"
-            th:text="${errorMessage}">
-        </div>
-
-        <div
-            class="success"
-            th:if="${successMessage}"
-            th:text="${successMessage}">
-        </div>
-
-        <form th:action="@{/logar}" th:object="${user}" method="post">
-
-            <div class="form-group">
-                <label for="email">E-mail</label>
-
-                <input
-                    type="email"
-                    id="email"
-                    th:field="*{email}"
-                    placeholder="seuemail@exemplo.com"
-                    required>
+        <!-- Lado Esquerdo -->
+        <div class="left">
+            <div class="brand-logo">
+                <i data-lucide="paw-print"></i>
+                <span>PetKeep</span>
             </div>
 
-            <div class="form-group">
-                <label for="senha">Senha</label>
-
-                <input
-                    type="password"
-                    id="senha"
-                    th:field="*{senha}"
-                    placeholder="Digite sua senha"
-                    required>
+            <div class="left-content">
+                <h1>Cuide de quem sempre cuida de você.</h1>
+                <p>O espaço completo para gerenciar consultas, vacinas, alimentação e a rotina do seu pet.</p>
+                
+                <ul class="features-list">
+                    <li><i data-lucide="check-circle-2"></i> Histórico de saúde centralizado</li>
+                    <li><i data-lucide="check-circle-2"></i> Lembretes de vacinas e consultas</li>
+                    <li><i data-lucide="check-circle-2"></i> Gestão simplificada para múltiplos pets</li>
+                </ul>
             </div>
 
-            <button
-                type="submit"
-                class="button">
-                Entrar
-            </button>
+            <div class="left-footer">
+                &copy; PetKeep. Todos os direitos reservados.
+            </div>
+        </div>
 
-        </form>
+        <!-- Lado Direito -->
+        <div class="right">
 
-        <div class="register">
-            Ainda não possui uma conta?
-            <a href="/cadastro">Cadastre-se</a>
+            <div class="right-header">
+                <h2>Bem-vindo de volta!</h2>
+                <p class="subtitle">Acesse sua conta para continuar acompanhando seus pets.</p>
+            </div>
+
+            <!-- Alerta de Erro -->
+            <div class="alert error" th:if="${errorMessage}">
+                <i data-lucide="alert-circle"></i>
+                <span th:text="${errorMessage}">E-mail ou senha incorretos.</span>
+            </div>
+
+            <!-- Alerta de Sucesso -->
+            <div class="alert success" th:if="${successMessage}">
+                <i data-lucide="check-circle-2"></i>
+                <span th:text="${successMessage}">Conta criada com sucesso!</span>
+            </div>
+
+            <form th:action="@{/logar}" th:object="${user}" method="post">
+
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <div class="input-wrapper">
+                        <i data-lucide="mail" class="input-icon-left"></i>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            th:field="*{email}" 
+                            placeholder="seuemail@exemplo.com" 
+                            required />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="senha">Senha</label>
+                    <div class="input-wrapper">
+                        <i data-lucide="lock" class="input-icon-left"></i>
+                        <input 
+                            type="password" 
+                            id="senha" 
+                            th:field="*{senha}" 
+                            placeholder="Digite sua senha" 
+                            required />
+                        <button type="button" class="toggle-password" id="togglePasswordBtn" title="Mostrar/Ocultar Senha">
+                            <i data-lucide="eye" id="eyeIcon"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <button type="submit" class="button">
+                    <span>Entrar na Conta</span>
+                    <i data-lucide="arrow-right"></i>
+                </button>
+
+            </form>
+
+            <div class="register">
+                Ainda não possui uma conta? 
+                <a href="/cadastro">Cadastre-se gratuitamente</a>
+            </div>
+
         </div>
 
     </div>
 
-</div>
+    <script>
+        // Inicializa os ícones
+        lucide.createIcons();
+
+        // Lógica de alternar visibilidade da senha
+        const togglePasswordBtn = document.getElementById('togglePasswordBtn');
+        const passwordInput = document.getElementById('senha');
+
+        if (togglePasswordBtn && passwordInput) {
+            togglePasswordBtn.addEventListener('click', () => {
+                const isPassword = passwordInput.type === 'password';
+                passwordInput.type = isPassword ? 'text' : 'password';
+
+                const eyeIcon = document.getElementById('eyeIcon');
+                if (eyeIcon) {
+                    eyeIcon.setAttribute('data-lucide', isPassword ? 'eye-off' : 'eye');
+                    lucide.createIcons();
+                }
+            });
+        }
+    </script>
 
 </body>
 </html>

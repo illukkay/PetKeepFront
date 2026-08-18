@@ -4,90 +4,278 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Detalhes do Pet - PetKeep</title>
 
+    <!-- Google Fonts & Lucide Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
     <style>
+        :root {
+            --primary: #1b4332;
+            --primary-hover: #2d6a4f;
+            --primary-light: rgba(27, 67, 50, 0.08);
+            --bg-body: #f0f4f1;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #cbd5e1;
+            --card-bg: #ffffff;
+            --radius-lg: 16px;
+            --radius-md: 10px;
+            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: Arial, sans-serif;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
         }
 
         body {
-            background-color: #f0f4f1;
-            color: #2d3732;
+            background-color: var(--bg-body);
+            color: var(--text-main);
             min-height: 100vh;
-        }
-
-     
-        header {
-            background-color: #1b4332;
-            color: white;
-            padding: 20px 50px;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #0d281e;
+            flex-direction: column;
         }
 
-        header h1 {
-            font-size: 26px;
+        /* Header / Navbar */
+        header {
+            height: 72px;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 22px;
+            font-weight: 700;
+            color: #ffffff;
+            text-decoration: none;
             letter-spacing: -0.5px;
         }
 
-        .voltar-header {
-            color: #e2e8f0;
+        .logo i {
+            width: 26px;
+            height: 26px;
+        }
+
+        .nav {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .nav a {
+            display: flex;
+            align-items: center;
+            gap: 8px;
             text-decoration: none;
+            color: #d1e7dd;
+            font-weight: 500;
             font-size: 14px;
-            font-weight: bold;
-            transition: color 0.2s;
+            padding: 8px 16px;
+            border-radius: var(--radius-md);
+            transition: var(--transition);
         }
 
-        .voltar-header:hover {
+        .nav a i {
+            width: 18px;
+            height: 18px;
+        }
+
+        .nav a:hover, .nav a.active {
             color: #ffffff;
-            text-decoration: underline;
+            background: rgba(255, 255, 255, 0.12);
         }
 
+        .nav .btn-logout {
+            color: #fca5a5;
+            margin-left: 12px;
+        }
+
+        .nav .btn-logout:hover {
+            background: rgba(239, 68, 68, 0.2);
+            color: #f87171;
+        }
+
+        /* Container Principal */
         main {
-            max-width: 650px;
-            margin: 40px auto;
-            padding: 0 20px;
+            max-width: 720px;
+            width: 100%;
+            margin: 36px auto;
+            padding: 0 24px;
+            flex: 1;
         }
 
+        /* Navegação Secundária (Voltar) */
+        .back-nav {
+            margin-bottom: 24px;
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            padding: 10px 18px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            transition: var(--transition);
+        }
+
+        .btn-back i {
+            width: 18px;
+            height: 18px;
+            transition: transform 0.2s;
+        }
+
+        .btn-back:hover {
+            background-color: var(--primary);
+            color: #ffffff;
+            border-color: var(--primary);
+        }
+
+        .btn-back:hover i {
+            transform: translateX(-4px);
+        }
+
+        /* Card de Detalhes do Pet */
         .card {
-            background-color: white;
-            padding: 35px;
-            border-radius: 12px;
-            border: 1px solid #cbd5e1;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            background-color: var(--card-bg);
+            padding: 36px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
         }
 
+        /* Header do Card */
         .header-card {
-            border-bottom: 2px solid #f0f4f1;
-            padding-bottom: 15px;
-            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 24px;
+            margin-bottom: 28px;
         }
 
-        .header-card h2 {
+        .pet-perfil-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .pet-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--primary-light);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .pet-avatar i {
+            width: 30px;
+            height: 30px;
+        }
+
+        .pet-title-group h2 {
             font-size: 26px;
-            color: #1b4332;
+            font-weight: 700;
+            color: var(--text-main);
+            letter-spacing: -0.4px;
+            line-height: 1.2;
         }
 
-     
+        .pet-title-group p {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .badge-especie {
+            background-color: var(--primary-light);
+            color: var(--primary);
+            font-size: 12px;
+            font-weight: 700;
+            padding: 6px 14px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .badge-especie i {
+            width: 14px;
+            height: 14px;
+        }
+
+        /* Grid de Informações */
         .grid-info {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
-            margin-bottom: 20px;
+            gap: 20px;
+            margin-bottom: 28px;
         }
 
         .informacao {
             background-color: #f8faf9;
-            padding: 12px 16px;
-            border-radius: 6px;
+            padding: 16px 20px;
+            border-radius: var(--radius-md);
             border: 1px solid #e2e8f0;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            transition: var(--transition);
+        }
+
+        .informacao:hover {
+            border-color: rgba(27, 67, 50, 0.3);
+            background-color: #ffffff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+        }
+
+        .informacao-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background-color: var(--primary-light);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .informacao-icon i {
+            width: 18px;
+            height: 18px;
+        }
+
+        .informacao-content {
+            display: flex;
+            flex-direction: column;
         }
 
         .informacao-full {
@@ -95,40 +283,83 @@
         }
 
         .informacao label {
-            display: block;
-            font-size: 12px;
+            font-size: 11px;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            font-weight: bold;
-            color: #64748b;
+            letter-spacing: 0.6px;
+            font-weight: 700;
+            color: var(--text-muted);
             margin-bottom: 4px;
         }
 
         .informacao span {
             font-size: 16px;
-            color: #2d3732;
+            color: var(--text-main);
             font-weight: 600;
         }
 
+        /* Caixa de Observações */
+        .obs-card {
+            background-color: #f8faf9;
+            border-left: 4px solid var(--primary);
+            padding: 20px;
+            border-radius: var(--radius-md);
+            border-top: 1px solid #e2e8f0;
+            border-right: 1px solid #e2e8f0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .obs-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .obs-header i {
+            width: 16px;
+            height: 16px;
+        }
+
+        .obs-card p {
+            font-size: 15px;
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        /* Botões de Ação */
         .botoes {
             display: flex;
-            gap: 12px;
-            margin-top: 25px;
-            padding-top: 15px;
-            border-top: 1px solid #e2e8f0;
+            gap: 14px;
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-color);
         }
 
         .btn {
             flex: 1;
-            padding: 12px;
-            border-radius: 6px;
+            padding: 13px 20px;
+            border-radius: var(--radius-md);
             text-align: center;
             text-decoration: none;
-            font-weight: bold;
-            border: none;
+            font-weight: 600;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: var(--transition);
             cursor: pointer;
-            font-size: 15px;
-            transition: 0.2s;
+            border: none;
+        }
+
+        .btn i {
+            width: 18px;
+            height: 18px;
         }
 
         .btn-voltar {
@@ -138,11 +369,50 @@
 
         .btn-voltar:hover {
             background-color: #cbd5e1;
+            color: #1e293b;
         }
 
-        @media (max-width: 600px) {
+        .btn-primario {
+            background-color: var(--primary);
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(27, 67, 50, 0.2);
+        }
+
+        .btn-primario:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(27, 67, 50, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 14px;
+            padding: 28px;
+            border-top: 1px solid var(--border-color);
+            background: var(--card-bg);
+            margin-top: auto;
+        }
+
+        /* Responsividade */
+        @media (max-width: 640px) {
             header {
-                padding: 20px;
+                padding: 0 20px;
+            }
+
+            .nav a span {
+                display: none;
+            }
+
+            .card {
+                padding: 24px;
+            }
+
+            .header-card {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
             }
 
             .grid-info {
@@ -152,61 +422,164 @@
             .informacao-full {
                 grid-column: span 1;
             }
+
+            .botoes {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
 
 <body>
 
+    <!-- Header / Navbar -->
     <header>
-        <h1>PetKeep</h1>
-        <a href="/pets" class="voltar-header">&larr; Voltar para meus pets</a>
+        <a th:href="@{/}" class="logo">
+            <i data-lucide="paw-print"></i>
+            <span>PetKeep</span>
+        </a>
+
+        <nav class="nav">
+            <a th:href="@{/}">
+                <i data-lucide="home"></i>
+                <span>Início</span>
+            </a>
+            <a th:href="@{/pets}" class="active">
+                <i data-lucide="dog"></i>
+                <span>Meus Pets</span>
+            </a>
+            <a th:href="@{/tarefas}">
+                <i data-lucide="calendar"></i>
+                <span>Tarefas</span>
+            </a>
+            <a th:href="@{/perfil}">
+                <i data-lucide="user"></i>
+                <span>Perfil</span>
+            </a>
+            <a th:href="@{/logout}" class="btn-logout" title="Sair da conta">
+                <i data-lucide="log-out"></i>
+                <span>Sair</span>
+            </a>
+        </nav>
     </header>
 
+    <!-- Conteúdo Principal -->
     <main>
+
+        <!-- Voltar à listagem -->
+        <div class="back-nav">
+            <a th:href="@{/pets}" class="btn-back">
+                <i data-lucide="arrow-left"></i>
+                <span>Voltar para Meus Pets</span>
+            </a>
+        </div>
+
+        <!-- Card de Informações do Pet -->
         <div class="card">
-            
+
+            <!-- Cabeçalho do Perfil do Pet -->
             <div class="header-card">
-                <h2 th:text="${pet.nome}">Nome do Pet</h2>
-            </div>
+                <div class="pet-perfil-header">
+                    <div class="pet-avatar">
+                        <i data-lucide="dog"></i>
+                    </div>
+                    <div class="pet-title-group">
+                        <h2 th:text="${pet.nome}">Nome do Pet</h2>
+                        <p>Ficha e informações detalhadas</p>
+                    </div>
+                </div>
 
-            <div class="grid-info">
-                
-                <div class="informacao">
-                    <label>Espécie</label>
+                <span class="badge-especie">
+                    <i data-lucide="paw-print"></i>
                     <span th:text="${pet.especie}">Espécie</span>
+                </span>
+            </div>
+
+            <!-- Grade com os Atributos do Pet -->
+            <div class="grid-info">
+
+                <div class="informacao">
+                    <div class="informacao-icon">
+                        <i data-lucide="paw-print"></i>
+                    </div>
+                    <div class="informacao-content">
+                        <label>Espécie</label>
+                        <span th:text="${pet.especie}">Espécie</span>
+                    </div>
                 </div>
 
                 <div class="informacao">
-                    <label>Raça</label>
-                    <span th:text="${pet.raca}">Raça</span>
+                    <div class="informacao-icon">
+                        <i data-lucide="dna"></i>
+                    </div>
+                    <div class="informacao-content">
+                        <label>Raça</label>
+                        <span th:text="${pet.raca}">SRD</span>
+                    </div>
                 </div>
 
                 <div class="informacao">
-                    <label>Idade</label>
-                    <span th:text="${pet.idade + ' anos'}">Idade</span>
+                    <div class="informacao-icon">
+                        <i data-lucide="cake"></i>
+                    </div>
+                    <div class="informacao-content">
+                        <label>Idade</label>
+                        <span th:text="${pet.idade + ' anos'}">0 anos</span>
+                    </div>
                 </div>
 
                 <div class="informacao">
-                    <label>Porte</label>
-                    <span th:text="${pet.porte}">Porte</span>
+                    <div class="informacao-icon">
+                        <i data-lucide="ruler"></i>
+                    </div>
+                    <div class="informacao-content">
+                        <label>Porte</label>
+                        <span th:text="${pet.porte}">Médio</span>
+                    </div>
                 </div>
 
-                <div class="informacao informacao-full">
-                    <label>Observações</label>
-                    <span th:text="${pet.observacoes}">Nenhuma observação.</span>
+                <!-- Campo de Observações em Destaque -->
+                <div class="informacao-full">
+                    <div class="obs-card">
+                        <div class="obs-header">
+                            <i data-lucide="file-text"></i>
+                            <span>Observações Médicas / Gerais</span>
+                        </div>
+                        <p th:if="${pet.observacoes != null and !pet.observacoes.isEmpty()}" th:text="${pet.observacoes}">
+                            Possui alergias ou necessidade de cuidados especiais.
+                        </p>
+                        <p th:unless="${pet.observacoes != null and !pet.observacoes.isEmpty()}" style="color: var(--text-muted); font-style: italic;">
+                            Nenhuma observação cadastrada para este pet.
+                        </p>
+                    </div>
                 </div>
 
             </div>
 
+            <!-- Botões de Ação -->
             <div class="botoes">
-                <a href="/pets" class="btn btn-voltar">
-                    Voltar
+                <a th:href="@{/pets}" class="btn btn-voltar">
+                    <i data-lucide="arrow-left"></i>
+                    <span>Voltar à Lista</span>
+                </a>
+                <a th:href="@{/tarefas/minhas(petId=${pet.id})}" class="btn btn-primario">
+                    <i data-lucide="check-square"></i>
+                    <span>Ver Tarefas do Pet</span>
                 </a>
             </div>
 
         </div>
+
     </main>
+
+    <!-- Rodapé -->
+    <footer>
+        PetKeep &copy; 2026 — Seu ecossistema de cuidado animal
+    </footer>
+
+    <script>
+        lucide.createIcons();
+    </script>
 
 </body>
 

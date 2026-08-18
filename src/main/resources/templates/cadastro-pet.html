@@ -1,345 +1,345 @@
 <!DOCTYPE html>
-
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Pet - PetKeep</title>
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root {
+            --primary: #1b4332;
+            --primary-hover: #2d6a4f;
+            --primary-light: #e8f5e9;
+            --bg-color: #f4f7f6;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --error-color: #e11d48;
+            --error-bg: #ffe4e6;
+            --radius: 12px;
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+        }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
 
-        <title>Cadastrar Pet - PetKeep</title>
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
 
-        <style>
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-                font-family: Arial, sans-serif;
-            }
+        /* Navbar Modernizada */
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 16px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
 
-            body {
-                background-color: #f0f4f1;
-                color: #2d3732;
-                min-height: 100vh;
-            }
+        header h1 {
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
 
+        .voltar {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 20px;
+            background-color: rgba(255, 255, 255, 0.12);
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .voltar:hover {
+            background-color: rgba(255, 255, 255, 0.25);
+            transform: translateX(-2px);
+        }
+
+        /* Form Container */
+        main {
+            max-width: 760px;
+            width: 100%;
+            margin: 40px auto;
+            padding: 0 20px;
+            flex: 1;
+        }
+
+        .formulario-card {
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .form-header {
+            margin-bottom: 28px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 20px;
+        }
+
+        .form-header h2 {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 6px;
+        }
+
+        .form-header p {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        /* Layout em Grid (2 Colunas no Desktop) */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .campo {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Campo de observações ocupa as 2 colunas */
+        .campo.full-width {
+            grid-column: span 2;
+        }
+
+        .campo label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .campo label span {
+            color: var(--error-color);
+        }
+
+        .campo input,
+        .campo select,
+        .campo textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 14px;
+            color: var(--text-main);
+            background-color: #fafafa;
+            transition: all 0.2s ease;
+            outline: none;
+        }
+
+        .campo input:focus,
+        .campo select:focus,
+        .campo textarea:focus {
+            background-color: #fff;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(27, 67, 50, 0.12);
+        }
+
+        .campo textarea {
+            resize: vertical;
+            min-height: 110px;
+        }
+
+        /* Alertas e Erros */
+        .erro-geral {
+            background-color: var(--error-bg);
+            color: var(--error-color);
+            padding: 14px 16px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+            font-size: 14px;
+            font-weight: 500;
+            border: 1px solid #fecdd3;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .erro-campo {
+            color: var(--error-color);
+            font-size: 12px;
+            font-weight: 500;
+            margin-top: 6px;
+        }
+
+        /* Botoes de Ação */
+        .botoes {
+            grid-column: span 2;
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 12px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-cancelar {
+            background-color: #f1f5f9;
+            color: var(--text-muted);
+        }
+
+        .btn-cancelar:hover {
+            background-color: #e2e8f0;
+            color: var(--text-main);
+        }
+
+        .btn-cadastrar {
+            background-color: var(--primary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(27, 67, 50, 0.2);
+        }
+
+        .btn-cadastrar:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(27, 67, 50, 0.3);
+        }
+
+        /* Responsividade */
+        @media (max-width: 640px) {
             header {
-                background-color: #1b4332;
-                color: white;
-                padding: 20px 50px;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                border-bottom: 1px solid #0d281e;
+                padding: 16px 20px;
             }
 
-            header h1 {
-                font-size: 26px;
+            .formulario-card {
+                padding: 24px;
             }
 
-            .voltar {
-                color: white;
-                text-decoration: none;
-                font-size: 15px;
+            .form-grid {
+                grid-template-columns: 1fr;
             }
 
-            .voltar:hover {
-                text-decoration: underline;
-            }
-
-            main {
-                max-width: 700px;
-                margin: 40px auto;
-                padding: 0 20px;
-            }
-
-            .formulario {
-                background-color: white;
-                padding: 35px;
-                border-radius: 8px;
-                border: 1px solid #cbd5e1;
-            }
-
-            .formulario h2 {
-                font-size: 28px;
-                margin-bottom: 10px;
-                color: #1b4332;
-            }
-
-            .descricao {
-                color: #64748b;
-                margin-bottom: 30px;
-            }
-
-            .campo {
-                margin-bottom: 20px;
-            }
-
-            .campo label {
-                display: block;
-                margin-bottom: 8px;
-                font-weight: bold;
-                color: #2d3732;
-            }
-
-            .campo input,
-            .campo select,
-            .campo textarea {
-                width: 100%;
-                padding: 12px;
-                border: 1px solid #cbd5e1;
-                border-radius: 6px;
-                font-size: 15px;
-                outline: none;
-                color: #2d3732;
-                background-color: #fff;
-            }
-
-            .campo input:focus,
-            .campo select:focus,
-            .campo textarea:focus {
-                border-color: #1b4332;
-            }
-
-            .campo textarea {
-                resize: vertical;
-                min-height: 100px;
+            .campo.full-width {
+                grid-column: span 1;
             }
 
             .botoes {
-                display: flex;
-                gap: 15px;
-                margin-top: 30px;
+                grid-column: span 1;
+                flex-direction: column-reverse;
             }
 
             .btn {
-                flex: 1;
-                padding: 13px;
-                border-radius: 6px;
-                text-align: center;
-                text-decoration: none;
-                font-weight: bold;
-                border: none;
-                cursor: pointer;
-                font-size: 15px;
-                transition: 0.2s;
+                width: 100%;
             }
+        }
+    </style>
+</head>
+<body>
 
-            .btn-cancelar {
-                background-color: #e2e8f0;
-                color: #475569;
-            }
+    <header>
+        <h1>PetKeep</h1>
+        <a th:href="@{/pets}" class="voltar">
+            ← Voltar para meus pets
+        </a>
+    </header>
 
-            .btn-cancelar:hover {
-                background-color: #cbd5e1;
-            }
-
-            .btn-cadastrar {
-                background-color: #1b4332;
-                color: white;
-            }
-
-            .btn-cadastrar:hover {
-                background-color: #2d6a4f;
-            }
-
-            .erro {
-                background-color: #fde8e8;
-                color: #9b1c1c;
-                padding: 12px;
-                border-radius: 6px;
-                margin-bottom: 20px;
-                font-size: 14px;
-                border: 1px solid #f8b4b4;
-                text-align: center;
-            }
-
-            @media (max-width: 600px) {
-                header {
-                    padding: 20px;
-                }
-
-                .formulario {
-                    padding: 25px;
-                }
-
-                .botoes {
-                    flex-direction: column;
-                }
-            }
-        </style>
-
-
-    </head>
-
-    <body>
-
-        <header>
-            <h1>PetKeep</h1>
-
-            <a href="/pets" class="voltar">
-                Voltar para meus pets
-            </a>
-
-
-        </header>
-
-        <main>
-
-
-            <div class="formulario">
-
-                <h2>Cadastrar Pet</h2>
-
-                <p class="descricao">
-                    Preencha os dados do seu pet para cadastrá-lo no PetKeep.
-                </p>
-
-                <div class="erro" th:if="${errorMessage}" th:text="${errorMessage}"></div>
-
-                <form th:action="@{/pets/cadastro}"
-                      th:object="${pet}"
-                      method="post">
-
-                    <div class="campo">
-
-                        <label for="nome">
-                            Nome
-                        </label>
-
-                        <input
-                            type="text"
-                            id="nome"
-                            th:field="*{nome}"
-                            placeholder="Ex: Rex"
-                            required>
-
-                    </div>
-
-                    <div class="campo">
-
-                        <label for="especie">
-                            Espécie
-                        </label>
-
-                        <select
-                            id="especie"
-                            th:field="*{especie}"
-                            required>
-
-                            <option value="">
-                                Selecione a espécie
-                            </option>
-
-                            <option
-                                th:each="especie : ${T(com.petkeep.front.model.Pet.Especie).values()}"
-                                th:value="${especie}"
-                                th:text="${especie}">
-                            </option>
-
-                        </select>
-
-                    </div>
-
-                    <div class="campo">
-
-                        <label for="raca">
-                            Raça
-                        </label>
-
-                        <input
-                            type="text"
-                            id="raca"
-                            th:field="*{raca}"
-                            placeholder="Ex: Labrador">
-
-                    </div>
-
-                    <div class="campo">
-
-                        <label for="idade">
-                            Idade
-                        </label>
-
-                        <input
-                            type="number"
-                            id="idade"
-                            th:field="*{idade}"
-                            min="0"
-                            placeholder="Ex: 5"
-                            required>
-
-                    </div>
-
-                    <div class="campo">
-
-                        <label for="porte">
-                            Porte
-                        </label>
-
-                        <select
-                            id="porte"
-                            th:field="*{porte}"
-                            required>
-
-                            <option value="">
-                                Selecione o porte
-                            </option>
-
-                            <option value="PEQUENO">
-                                Pequeno
-                            </option>
-
-                            <option value="MEDIO">
-                                Médio
-                            </option>
-
-                            <option value="GRANDE">
-                                Grande
-                            </option>
-
-                            <option value="GIGANTE">
-                                Gigante
-                            </option>
-
-                        </select>
-
-                    </div>
-
-                    <div class="campo">
-
-                        <label for="observacoes">
-                            Observações
-                        </label>
-
-                        <textarea
-                            id="observacoes"
-                            th:field="*{observacoes}"
-                            placeholder="Digite alguma informação importante sobre seu pet...">
-                        </textarea>
-
-                    </div>
-
-                    <div class="botoes">
-
-                        <a href="/pets"
-                           class="btn btn-cancelar">
-                            Cancelar
-                        </a>
-
-                        <button
-                            type="submit"
-                            class="btn btn-cadastrar">
-                            Cadastrar Pet
-                        </button>
-
-                    </div>
-
-                </form>
-
+    <main>
+        <div class="formulario-card">
+            
+            <div class="form-header">
+                <h2>Cadastrar Novo Pet</h2>
+                <p>Preencha as informações do seu companheiro para adicioná-lo à sua conta.</p>
             </div>
 
-        </main>
+            <!-- Alerta de Erro Geral -->
+            <div class="erro-geral" th:if="${errorMessage}" th:text="${errorMessage}"></div>
 
-    </body>
+            <form th:action="@{/pets/cadastro}" th:object="${pet}" method="post" class="form-grid">
+
+                <div class="campo">
+                    <label for="nome">Nome <span>*</span></label>
+                    <input type="text" id="nome" th:field="*{nome}" placeholder="Ex: Rex, Luna..." required>
+                    <span class="erro-campo" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></span>
+                </div>
+
+                <div class="campo">
+                    <label for="especie">Espécie <span>*</span></label>
+                    <select id="especie" th:field="*{especie}" required>
+                        <option value="">Selecione...</option>
+                        <option th:each="especie : ${T(com.petkeep.front.model.Pet.Especie).values()}"
+                                th:value="${especie}" 
+                                th:text="${especie}">
+                        </option>
+                    </select>
+                    <span class="erro-campo" th:if="${#fields.hasErrors('especie')}" th:errors="*{especie}"></span>
+                </div>
+
+                <div class="campo">
+                    <label for="raca">Raça</label>
+                    <input type="text" id="raca" th:field="*{raca}" placeholder="Ex: Labrador, SRD...">
+                    <span class="erro-campo" th:if="${#fields.hasErrors('raca')}" th:errors="*{raca}"></span>
+                </div>
+
+                <div class="campo">
+                    <label for="idade">Idade (anos) <span>*</span></label>
+                    <input type="number" id="idade" th:field="*{idade}" min="0" placeholder="Ex: 3" required>
+                    <span class="erro-campo" th:if="${#fields.hasErrors('idade')}" th:errors="*{idade}"></span>
+                </div>
+
+                <div class="campo full-width">
+                    <label for="porte">Porte <span>*</span></label>
+                    <select id="porte" th:field="*{porte}" required>
+                        <option value="">Selecione o porte...</option>
+                        <option th:each="porte : ${T(com.petkeep.front.model.Pet.Porte).values()}"
+                                th:value="${porte}" 
+                                th:text="${porte}">
+                        </option>
+                    </select>
+                    <span class="erro-campo" th:if="${#fields.hasErrors('porte')}" th:errors="*{porte}"></span>
+                </div>
+
+                <div class="campo full-width">
+                    <label for="observacoes">Observações Médicas ou de Convivência</label>
+                    <textarea id="observacoes" th:field="*{observacoes}" placeholder="Informe se possui alergias, se é castrado, comportamento..."></textarea>
+                    <span class="erro-campo" th:if="${#fields.hasErrors('observacoes')}" th:errors="*{observacoes}"></span>
+                </div>
+
+                <div class="botoes">
+                    <a th:href="@{/pets}" class="btn btn-cancelar">Cancelar</a>
+                    <button type="submit" class="btn btn-cadastrar">Salvar Pet</button>
+                </div>
+
+            </form>
+        </div>
+    </main>
+
+</body>
 </html>

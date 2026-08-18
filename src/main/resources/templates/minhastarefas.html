@@ -1,113 +1,231 @@
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PetKeep - Minhas Tarefas</title>
+    <title>Minhas Tarefas - PetKeep</title>
+
+    <!-- Google Fonts & Lucide Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
     <style>
+        :root {
+            --primary: #1b4332;
+            --primary-hover: #2d6a4f;
+            --primary-light: rgba(27, 67, 50, 0.08);
+            --bg-body: #f0f4f1;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #cbd5e1;
+            --card-bg: #ffffff;
+            --radius-lg: 16px;
+            --radius-md: 10px;
+            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: Arial, sans-serif;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
         }
 
         body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
             min-height: 100vh;
-            background: #f0f4f1;
-            color: #2d3732;
             display: flex;
             flex-direction: column;
         }
 
+        /* Header / Navbar */
         header {
-            height: 70px;
-            background: #1b4332; 
+            height: 72px;
+            background: var(--primary);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 50px;
-            border-bottom: 1px solid #143426;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 0 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
         .logo {
-            font-size: 26px;
-            font-weight: bold;
-            color: #ffffff; 
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 22px;
+            font-weight: 700;
+            color: #ffffff;
             text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+
+        .logo i {
+            width: 26px;
+            height: 26px;
         }
 
         .nav {
             display: flex;
-            gap: 28px;
+            gap: 8px;
             align-items: center;
         }
 
         .nav a {
+            display: flex;
+            align-items: center;
+            gap: 8px;
             text-decoration: none;
-            color: #d1e7dd; 
-            font-weight: bold;
-            font-size: 15px;
-            transition: color 0.2s;
+            color: #d1e7dd;
+            font-weight: 500;
+            font-size: 14px;
+            padding: 8px 16px;
+            border-radius: var(--radius-md);
+            transition: var(--transition);
+        }
+
+        .nav a i {
+            width: 18px;
+            height: 18px;
         }
 
         .nav a:hover, .nav a.active {
-            color: #ffffff; 
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.12);
         }
 
+        .nav .btn-logout {
+            color: #fca5a5;
+            margin-left: 12px;
+        }
+
+        .nav .btn-logout:hover {
+            background: rgba(239, 68, 68, 0.2);
+            color: #f87171;
+        }
+
+        /* Container Principal */
         main {
-            max-width: 1050px;
+            max-width: 900px;
             width: 100%;
-            margin: 35px auto;
-            padding: 0 20px;
+            margin: 36px auto;
+            padding: 0 24px;
             flex: 1;
         }
 
+        /* Navegação Secundária (Voltar) */
         .back-nav {
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
 
         .btn-back {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            color: #1b4332;
+            color: var(--primary);
             text-decoration: none;
-            font-weight: bold;
+            font-weight: 600;
             font-size: 14px;
-            padding: 8px 14px;
-            background-color: #ffffff;
-            border: 1px solid #cbd5e1;
-            border-radius: 6px;
-            transition: all 0.2s ease;
+            padding: 10px 18px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            transition: var(--transition);
+        }
+
+        .btn-back i {
+            width: 18px;
+            height: 18px;
+            transition: transform 0.2s;
         }
 
         .btn-back:hover {
-            background-color: #1b4332;
+            background-color: var(--primary);
             color: #ffffff;
-            border-color: #1b4332;
+            border-color: var(--primary);
         }
 
+        .btn-back:hover i {
+            transform: translateX(-4px);
+        }
+
+        /* Banner de Cabeçalho */
         .title-section {
-            background: #1b4332;
+            background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 100%);
             color: white;
-            border-radius: 12px;
-            padding: 35px 40px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 12px rgba(27, 67, 50, 0.15);
+            border-radius: var(--radius-lg);
+            padding: 32px 36px;
+            margin-bottom: 32px;
+            box-shadow: 0 8px 24px rgba(27, 67, 50, 0.15);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .title-section h1 {
-            font-size: 30px;
-            margin-bottom: 10px;
+        .title-content h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            letter-spacing: -0.5px;
         }
 
-        .title-section p {
-            color: #e2e8f0;
+        .title-content p {
+            color: #d1e7dd;
             font-size: 15px;
         }
 
+        .btn-add-task {
+            background-color: #ffffff;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+            padding: 12px 20px;
+            border-radius: var(--radius-md);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-add-task i {
+            width: 18px;
+            height: 18px;
+        }
+
+        .btn-add-task:hover {
+            background-color: #f0f4f1;
+            transform: translateY(-2px);
+        }
+
+        /* Mensagens de Erro */
+        .erro {
+            background-color: #fef2f2;
+            color: #991b1b;
+            padding: 16px;
+            border-radius: var(--radius-md);
+            margin-bottom: 24px;
+            font-size: 14px;
+            border: 1px solid #fecaca;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .erro i {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Lista de Tarefas */
         .tasks {
             display: flex;
             flex-direction: column;
@@ -115,10 +233,17 @@
         }
 
         .task-card {
-            background: #ffffff;
-            border: 1px solid #cbd5e1;
-            border-radius: 10px;
-            padding: 25px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+            transition: var(--transition);
+        }
+
+        .task-card:hover {
+            border-color: rgba(27, 67, 50, 0.3);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
         }
 
         .task-header {
@@ -126,150 +251,250 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .task-pet-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .task-pet-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary-light);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .task-pet-avatar i {
+            width: 20px;
+            height: 20px;
         }
 
         .task-header h2 {
-            color: #1b4332;
-            font-size: 21px;
+            color: var(--text-main);
+            font-size: 20px;
+            font-weight: 700;
         }
 
+        /* Status Badges */
         .status {
-            padding: 7px 12px;
+            padding: 6px 14px;
             border-radius: 20px;
-            font-size: 13px;
-            font-weight: bold;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
         }
 
         .status-ABERTA {
-            background: #e8f3eb;
-            color: #1b4332;
+            background-color: #dcfce7;
+            color: #15803d;
         }
 
         .status-EM_ANDAMENTO {
-            background: #fef3c7;
-            color: #92400e;
+            background-color: #fef3c7;
+            color: #b45309;
         }
 
         .status-CONCLUIDA {
-            background: #dbeafe;
-            color: #1e40af;
+            background-color: #dbeafe;
+            color: #1d4ed8;
         }
 
         .status-CANCELADA {
-            background: #fde8e8;
-            color: #9b1c1c;
+            background-color: #fee2e2;
+            color: #b91c1c;
         }
 
+        /* Grade de Informações da Tarefa */
         .task-info {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
+            gap: 16px;
             margin-bottom: 20px;
         }
 
         .info-item {
-            background: #f0f4f1;
-            padding: 14px;
-            border-radius: 7px;
+            background-color: #f8faf9;
+            padding: 14px 18px;
+            border-radius: var(--radius-md);
+            border: 1px solid #e2e8f0;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
         }
 
-        .info-item strong {
-            display: block;
-            color: #64748b;
-            font-size: 12px;
-            margin-bottom: 5px;
+        .info-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            background-color: var(--primary-light);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .info-icon i {
+            width: 16px;
+            height: 16px;
+        }
+
+        .info-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-text strong {
+            color: var(--text-muted);
+            font-size: 11px;
             text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 2px;
+            font-weight: 700;
         }
 
-        .info-item span {
-            color: #2d3732;
-            font-size: 14px;
-            font-weight: bold;
+        .info-text span {
+            color: var(--text-main);
+            font-size: 15px;
+            font-weight: 600;
         }
 
-        .description {
-            color: #64748b;
-            font-size: 14px;
-            line-height: 1.5;
+        /* Descrição */
+        .description-box {
+            background-color: #f8faf9;
+            border-left: 3px solid var(--primary);
+            padding: 16px;
+            border-radius: 6px;
             margin-bottom: 20px;
         }
 
+        .description-box strong {
+            display: block;
+            font-size: 12px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+            font-weight: 700;
+        }
+
+        .description-box p {
+            color: var(--text-main);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* Ações da Tarefa */
         .task-actions {
             display: flex;
-            gap: 10px;
+            gap: 12px;
+            padding-top: 16px;
+            border-top: 1px solid #f1f5f9;
         }
 
-        .button {
-            display: inline-block;
-            padding: 11px 18px;
-            background: #1b4332;
-            color: white;
-            border-radius: 6px;
-            border: none;
+        .btn-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            background-color: var(--primary);
+            color: #ffffff;
+            border-radius: var(--radius-md);
             text-decoration: none;
-            font-weight: bold;
+            font-weight: 600;
             font-size: 14px;
-            cursor: pointer;
-            transition: background 0.2s;
+            transition: var(--transition);
         }
 
-        .button:hover {
-            background: #143426;
+        .btn-action i {
+            width: 16px;
+            height: 16px;
         }
 
+        .btn-action:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        /* Estado Vazio */
         .empty {
-            background: #ffffff;
-            border: 1px solid #cbd5e1;
-            border-radius: 10px;
-            padding: 40px;
+            background-color: var(--card-bg);
+            border: 1px dashed var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 60px 20px;
             text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .empty-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background-color: var(--primary-light);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .empty-icon i {
+            width: 32px;
+            height: 32px;
         }
 
         .empty h2 {
-            color: #1b4332;
-            margin-bottom: 10px;
+            color: var(--text-main);
+            font-size: 20px;
+            font-weight: 700;
         }
 
         .empty p {
-            color: #64748b;
-        }
-
-        .back {
-            display: inline-block;
-            margin-top: 25px;
-            color: #1b4332;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .back:hover {
-            text-decoration: underline;
-        }
-
-        .erro {
-            background: #fde8e8;
-            color: #9b1c1c;
-            padding: 12px;
-            border-radius: 6px;
-            margin-bottom: 20px;
+            color: var(--text-muted);
             font-size: 14px;
-            border: 1px solid #f8b4b4;
-            text-align: center;
+            max-width: 400px;
         }
 
+        /* Footer */
         footer {
             text-align: center;
-            color: #64748b;
+            color: var(--text-muted);
             font-size: 14px;
-            padding: 25px;
-            border-top: 1px solid #e2e8f0;
-            background: #ffffff;
-            margin-top: 40px;
+            padding: 28px;
+            border-top: 1px solid var(--border-color);
+            background: var(--card-bg);
+            margin-top: auto;
         }
 
+        /* Responsividade */
         @media (max-width: 700px) {
             header {
                 padding: 0 20px;
+            }
+
+            .nav a span {
+                display: none;
+            }
+
+            .title-section {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 20px;
+                padding: 24px;
             }
 
             .task-info {
@@ -279,100 +504,181 @@
             .task-header {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 10px;
+                gap: 12px;
             }
         }
     </style>
 </head>
+
 <body>
 
-<header>
-    <a href="/" class="logo">PetKeep</a>
-    <nav class="nav">
-        <a href="/">Início</a>
-        <a href="/pets">Meus Pets</a>
-        <a href="/tarefas" class="active">Tarefas</a>
-        <a href="/perfil">Perfil</a>
-    <a href="/logout">Sair</a>
-    </nav>
-</header>
-
-<main>
-
-    <div class="back-nav">
-        <a href="/tarefas" class="btn-back">
-            &larr; Voltar para tarefas
+    <!-- Header / Navbar -->
+    <header>
+        <a th:href="@{/}" class="logo">
+            <i data-lucide="paw-print"></i>
+            <span>PetKeep</span>
         </a>
-    </div>
 
-    <section class="title-section">
-        <h1>Minhas Tarefas</h1>
-        <p>Acompanhe o andamento dos serviços que você solicitou.</p>
-    </section>
+        <nav class="nav">
+            <a th:href="@{/}">
+                <i data-lucide="home"></i>
+                <span>Início</span>
+            </a>
+            <a th:href="@{/pets}">
+                <i data-lucide="dog"></i>
+                <span>Meus Pets</span>
+            </a>
+            <a th:href="@{/tarefas}" class="active">
+                <i data-lucide="calendar"></i>
+                <span>Tarefas</span>
+            </a>
+            <a th:href="@{/perfil}">
+                <i data-lucide="user"></i>
+                <span>Perfil</span>
+            </a>
+            <a th:href="@{/logout}" class="btn-logout" title="Sair da conta">
+                <i data-lucide="log-out"></i>
+                <span>Sair</span>
+            </a>
+        </nav>
+    </header>
 
-    <div class="erro" th:if="${errorMessage}" th:text="${errorMessage}"></div>
+    <!-- Conteúdo Principal -->
+    <main>
 
-    <section class="tasks" th:if="${not #lists.isEmpty(tarefas)}">
-
-        <div class="task-card" th:each="tarefa : ${tarefas}">
-
-            <div class="task-header">
-                <h2 th:text="${tarefa.pet.nome}">Nome do pet</h2>
-
-                <span class="status" th:classappend="'status-' + ${tarefa.status}" th:text="${tarefa.status}">ABERTA</span>
-            </div>
-
-            <div class="task-info">
-
-                <div class="info-item">
-                    <strong>Serviço</strong>
-                    <span th:text="${tarefa.tipoServico}">Passeio</span>
-                </div>
-
-                <div class="info-item">
-                    <strong>Valor</strong>
-                    <span>R$ <span th:text="${tarefa.valor}">0,00</span></span>
-                </div>
-
-                <div class="info-item">
-                    <strong>Data</strong>
-                    <span th:text="${tarefa.dataServico}">Data</span>
-                </div>
-
-                <div class="info-item">
-                    <strong>Prestador</strong>
-                    <span th:text="${tarefa.prestador != null ? tarefa.prestador.nome : 'Aguardando'}">Aguardando</span>
-                </div>
-
-            </div>
-
-            <p class="description" th:if="${tarefa.descricao != null and !tarefa.descricao.isEmpty()}">
-                <strong>Descrição:</strong>
-                <span th:text="${tarefa.descricao}">Descrição da tarefa</span>
-            </p>
-
-            <div class="task-actions" th:if="${tarefa.status.name() == 'CONCLUIDA' and tarefa.prestador != null}">
-                <a th:href="@{/avaliacao/nova(tarefaId=${tarefa.id},avaliadoId=${tarefa.prestador.id},avaliadoNome=${tarefa.prestador.nome},petNome=${tarefa.pet.nome})}" class="button">
-                    Avaliar prestador
-                </a>
-            </div>
-
+        <!-- Navegação Secundária -->
+        <div class="back-nav">
+            <a th:href="@{/tarefas}" class="btn-back">
+                <i data-lucide="arrow-left"></i>
+                <span>Voltar para Geral de Tarefas</span>
+            </a>
         </div>
 
-    </section>
+        <!-- Cabeçalho da Seção -->
+        <section class="title-section">
+            <div class="title-content">
+                <h1>Minhas Tarefas</h1>
+                <p>Acompanhe o andamento dos serviços que você solicitou para seus pets.</p>
+            </div>
+            <a th:href="@{/tarefas/cadastro}" class="btn-add-task">
+                <i data-lucide="plus-circle"></i>
+                <span>Nova Tarefa</span>
+            </a>
+        </section>
 
-    <section class="empty" th:if="${#lists.isEmpty(tarefas)}">
-        <h2>Nenhuma tarefa cadastrada</h2>
-        <p>Cadastre uma tarefa para solicitar um serviço para o seu pet.</p>
-    </section>
+        <!-- Alerta de Erro -->
+        <div class="erro" th:if="${errorMessage}">
+            <i data-lucide="alert-circle"></i>
+            <span th:text="${errorMessage}">Mensagem de erro</span>
+        </div>
 
-    <a href="/tarefas/cadastro" class="back">&larr; Cadastrar nova tarefa</a>
+        <!-- Lista de Tarefas Cadastradas -->
+        <section class="tasks" th:if="${not #lists.isEmpty(tarefas)}">
 
-</main>
+            <div class="task-card" th:each="tarefa : ${tarefas}">
 
-<footer>
-    PetKeep &copy; 2026 — Seu ecossistema de cuidado animal
-</footer>
+                <div class="task-header">
+                    <div class="task-pet-title">
+                        <div class="task-pet-avatar">
+                            <i data-lucide="dog"></i>
+                        </div>
+                        <h2 th:text="${tarefa.pet.nome}">Nome do pet</h2>
+                    </div>
+
+                    <span class="status" th:classappend="'status-' + ${tarefa.status}" th:text="${tarefa.status}">
+                        ABERTA
+                    </span>
+                </div>
+
+                <div class="task-info">
+
+                    <div class="info-item">
+                        <div class="info-icon">
+                            <i data-lucide="scissors"></i>
+                        </div>
+                        <div class="info-text">
+                            <strong>Serviço</strong>
+                            <span th:text="${tarefa.tipoServico}">Passeio</span>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-icon">
+                            <i data-lucide="dollar-sign"></i>
+                        </div>
+                        <div class="info-text">
+                            <strong>Valor</strong>
+                            <span>R$ <span th:text="${tarefa.valor}">0,00</span></span>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-icon">
+                            <i data-lucide="calendar"></i>
+                        </div>
+                        <div class="info-text">
+                            <strong>Data</strong>
+                            <span th:text="${tarefa.dataServico}">Data</span>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-icon">
+                            <i data-lucide="user-check"></i>
+                        </div>
+                        <div class="info-text">
+                            <strong>Prestador</strong>
+                            <span th:text="${tarefa.prestador != null ? tarefa.prestador.nome : 'Aguardando prestador'}">
+                                Aguardando
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Descrição -->
+                <div class="description-box" th:if="${tarefa.descricao != null and !tarefa.descricao.isEmpty()}">
+                    <strong>Descrição da Solicitação:</strong>
+                    <p th:text="${tarefa.descricao}">Detalhes e especificações da tarefa solicitada.</p>
+                </div>
+
+                <!-- Ações da Tarefa -->
+                <div class="task-actions" th:if="${tarefa.status.name() == 'CONCLUIDA' and tarefa.prestador != null}">
+                    <a th:href="@{/avaliacao/nova(tarefaId=${tarefa.id},avaliadoId=${tarefa.prestador.id},avaliadoNome=${tarefa.prestador.nome},petNome=${tarefa.pet.nome})}"
+                       class="btn-action">
+                        <i data-lucide="star"></i>
+                        <span>Avaliar Prestador</span>
+                    </a>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- Estado Vazio -->
+        <section class="empty" th:if="${#lists.isEmpty(tarefas)}">
+            <div class="empty-icon">
+                <i data-lucide="clipboard-x"></i>
+            </div>
+            <h2>Nenhuma tarefa cadastrada</h2>
+            <p>Você ainda não solicitou nenhum serviço. Cadastre uma nova tarefa para começar!</p>
+            <a th:href="@{/tarefas/cadastro}" class="btn-add-task" style="background-color: var(--primary); color: white;">
+                <i data-lucide="plus-circle"></i>
+                <span>Cadastrar primeira tarefa</span>
+            </a>
+        </section>
+
+    </main>
+
+    <!-- Rodapé -->
+    <footer>
+        PetKeep &copy; 2026 — Seu ecossistema de cuidado animal
+    </footer>
+
+    <script>
+        lucide.createIcons();
+    </script>
 
 </body>
+
 </html>

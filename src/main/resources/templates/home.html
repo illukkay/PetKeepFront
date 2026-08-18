@@ -1,294 +1,514 @@
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>PetKeep - Painel Principal</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PetKeep - Painel Principal</title>
 
-        <style>
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-                font-family: Arial, sans-serif;
-            }
+    <!-- Google Fonts & Lucide Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
 
-            body {
-                min-height: 100vh;
-                background: #f0f4f1;
-                color: #2d3732;
-                display: flex;
-                flex-direction: column;
-            }
+    <style>
+        :root {
+            --primary: #1b4332;
+            --primary-hover: #2d6a4f;
+            --primary-light: rgba(27, 67, 50, 0.08);
+            --bg-body: #f0f4f1;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #cbd5e1;
+            --card-bg: #ffffff;
+            --radius-lg: 16px;
+            --radius-md: 10px;
+            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
 
-            header {
-                height: 70px;
-                background: #1b4332; 
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                padding: 0 50px;
-                border-bottom: 1px solid #143426;
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
 
-            .logo {
-                font-size: 26px;
-                font-weight: bold;
-                color: #ffffff; 
-                text-decoration: none;
-            }
+        body {
+            min-height: 100vh;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+        }
 
-            .nav {
-                display: flex;
-                gap: 28px;
-                align-items: center;
-            }
+        /* Header / Navbar */
+        header {
+            height: 72px;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
 
-            .nav a {
-                text-decoration: none;
-                color: #d1e7dd; 
-                font-weight: bold;
-                font-size: 15px;
-                transition: color 0.2s;
-            }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 22px;
+            font-weight: 700;
+            color: #ffffff;
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
 
-            .nav a:hover, .nav a.active {
-                color: #ffffff; 
-            }
+        .logo i {
+            width: 26px;
+            height: 26px;
+        }
 
-            main {
-                max-width: 1050px;
-                width: 100%;
-                margin: 35px auto;
-                padding: 0 20px;
-                flex: 1;
-            }
+        .nav {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
 
-            .welcome {
-                background: #1b4332;
-                color: white;
-                border-radius: 12px;
-                padding: 45px 40px;
-                margin-bottom: 30px;
-                box-shadow: 0 4px 12px rgba(27, 67, 50, 0.15);
-            }
+        .nav a {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: #d1e7dd;
+            font-weight: 500;
+            font-size: 14px;
+            padding: 8px 16px;
+            border-radius: var(--radius-md);
+            transition: var(--transition);
+        }
 
-            .welcome .badge-home {
-                display: inline-block;
-                background: rgba(255, 255, 255, 0.15);
-                padding: 4px 12px;
-                border-radius: 20px;
-                font-size: 13px;
-                font-weight: bold;
-                margin-bottom: 14px;
-                letter-spacing: 0.5px;
-            }
+        .nav a i {
+            width: 18px;
+            height: 18px;
+        }
 
-            .welcome h1 {
-                font-size: 32px;
-                margin-bottom: 10px;
-                letter-spacing: -0.5px;
-            }
+        .nav a:hover, .nav a.active {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.12);
+        }
 
-            .welcome p {
-                font-size: 16px;
-                line-height: 1.6;
-                color: #e2e8f0;
-                max-width: 620px;
-            }
+        .nav .btn-logout {
+            color: #fca5a5;
+            margin-left: 12px;
+        }
 
+        .nav .btn-logout:hover {
+            background: rgba(239, 68, 68, 0.2);
+            color: #f87171;
+        }
+
+        /* Container Principal */
+        main {
+            max-width: 1100px;
+            width: 100%;
+            margin: 40px auto;
+            padding: 0 24px;
+            flex: 1;
+        }
+
+        /* Hero / Boas-vindas */
+        .welcome {
+            background: linear-gradient(135deg, #122f23 0%, #1b4332 60%, #2d6a4f 100%);
+            color: white;
+            border-radius: var(--radius-lg);
+            padding: 48px;
+            margin-bottom: 32px;
+            box-shadow: 0 12px 30px rgba(27, 67, 50, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .welcome-pattern {
+            position: absolute;
+            right: -40px;
+            bottom: -40px;
+            opacity: 0.08;
+            pointer-events: none;
+        }
+
+        .welcome .badge-home {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(8px);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 18px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .welcome .badge-home i {
+            width: 14px;
+            height: 14px;
+        }
+
+        .welcome h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .welcome p {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #e2e8f0;
+            max-width: 600px;
+        }
+
+        /* Cards Grid */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 32px 28px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: var(--primary);
+            box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.08);
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-md);
+            background: var(--primary-light);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .card-icon i {
+            width: 24px;
+            height: 24px;
+        }
+
+        .card-content h2 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--text-main);
+            letter-spacing: -0.3px;
+        }
+
+        .card-content p {
+            color: var(--text-muted);
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 28px;
+        }
+
+        .card a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 12px;
+            background: var(--bg-body);
+            color: var(--primary);
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .card a i {
+            width: 16px;
+            height: 16px;
+            transition: transform 0.2s;
+        }
+
+        .card a:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .card a:hover i {
+            transform: translateX(4px);
+        }
+
+        /* Barra de Informações / Status */
+        .info-bar {
+            margin-top: 32px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 24px 36px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .info-item:not(:last-child) {
+            border-right: 1px solid var(--border-color);
+            padding-right: 20px;
+        }
+
+        .info-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: var(--primary-light);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .info-icon i {
+            width: 20px;
+            height: 20px;
+        }
+
+        .info-details h4 {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .info-details p {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 14px;
+            padding: 28px;
+            border-top: 1px solid var(--border-color);
+            background: var(--card-bg);
+            margin-top: auto;
+        }
+
+        /* Responsividade */
+        @media (max-width: 900px) {
             .cards {
-                display: grid;
-                grid-template-columns: repeat(3, 1fr);
-                gap: 20px;
-            }
-
-            .card {
-                background: #ffffff;
-                border: 1px solid #cbd5e1;
-                border-radius: 10px;
-                padding: 28px 24px;
-                display: flex;
-                flex-direction: column;
-                justify-content: space-between;
-                transition: transform 0.2s, box-shadow 0.2s;
-            }
-
-            .card:hover {
-                box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
-            }
-
-            .card-content h2 {
-                font-size: 20px;
-                margin-bottom: 10px;
-                color: #1b4332;
-            }
-
-            .card-content p {
-                color: #64748b;
-                font-size: 14px;
-                line-height: 1.5;
-                margin-bottom: 24px;
-            }
-
-            .card a {
-                display: block;
-                text-align: center;
-                padding: 11px 16px;
-                background: #f0f4f1;
-                color: #1b4332;
-                border-radius: 6px;
-                text-decoration: none;
-                font-weight: bold;
-                font-size: 14px;
-                transition: all 0.2s;
-            }
-
-            .card a:hover {
-                background: #1b4332;
-                color: white;
+                grid-template-columns: 1fr;
             }
 
             .info-bar {
-                margin-top: 30px;
-                background: #ffffff;
-                border: 1px solid #cbd5e1;
-                border-radius: 10px;
-                padding: 20px 30px;
-                display: flex;
-                justify-content: space-around;
-                align-items: center;
-                text-align: center;
+                grid-template-columns: 1fr;
+                gap: 24px;
             }
 
-            .info-item h4 {
-                font-size: 13px;
-                color: #64748b;
-                text-transform: uppercase;
-                letter-spacing: 0.5px;
-                margin-bottom: 4px;
+            .info-item:not(:last-child) {
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+                padding-right: 0;
+                padding-bottom: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 0 20px;
             }
 
-            .info-item p {
-                font-size: 18px;
-                font-weight: bold;
-                color: #1b4332;
+            .nav a span {
+                display: none;
             }
 
-            footer {
-                text-align: center;
-                color: #64748b;
-                font-size: 14px;
-                padding: 25px;
-                border-top: 1px solid #e2e8f0;
-                background: #ffffff;
-                margin-top: 40px;
+            .welcome {
+                padding: 32px 24px;
             }
 
-            @media (max-width: 850px) {
-                header {
-                    padding: 0 20px;
-                }
-
-                .cards {
-                    grid-template-columns: 1fr;
-                }
-
-                .welcome {
-                    padding: 30px 20px;
-                }
-
-                .info-bar {
-                    flex-direction: column;
-                    gap: 16px;
-                }
+            .welcome h1 {
+                font-size: 24px;
             }
-        </style>
-    </head>
-    <body>
+        }
+    </style>
+</head>
+<body>
 
-        <header>
-            <a href="/" class="logo">PetKeep</a>
-            <nav class="nav">
-                <a href="/" class="active">Início</a>
-                <a href="/pets">Meus Pets</a>
-                <a href="/tarefas">Tarefas</a>
-                <a href="/perfil">Perfil</a>
-            <a href="/logout">Sair</a>
-            </nav>
-        </header>
+    <!-- Header / Navegação Principal -->
+    <header>
+        <a th:href="@{/}" class="logo">
+            <i data-lucide="paw-print"></i>
+            <span>PetKeep</span>
+        </a>
 
-        <main>
+        <nav class="nav">
+            <a th:href="@{/}" class="active">
+                <i data-lucide="home"></i>
+                <span>Início</span>
+            </a>
+            <a th:href="@{/pets}">
+                <i data-lucide="dog"></i>
+                <span>Meus Pets</span>
+            </a>
+            <a th:href="@{/tarefas}">
+                <i data-lucide="calendar"></i>
+                <span>Tarefas</span>
+            </a>
+            <a th:href="@{/perfil}">
+                <i data-lucide="user"></i>
+                <span>Perfil</span>
+            </a>
+            <a th:href="@{/logout}" class="btn-logout" title="Sair da conta">
+                <i data-lucide="log-out"></i>
+                <span>Sair</span>
+            </a>
+        </nav>
+    </header>
 
-            <section class="welcome">
-                <span class="badge-home">Painel do Tutor</span>
-                <h1>Olá! Seja bem-vindo ao PetKeep</h1>
-                <p>
-                    Acompanhe os cuidados do seu pet, gerencie lembretes diários e encontre apoio para manter a rotina em dia.
-                </p>
-            </section>
+    <!-- Conteúdo Principal -->
+    <main>
 
-            <section class="cards">
-                
-                <div class="card">
-                    <div class="card-content">
-                        <h2>Meus Pets</h2>
-                        <p>
-                            Gerencie os perfis dos seus companheiros, registre dados de saúde e preferências.
-                        </p>
+        <!-- Banner de Boas-Vindas -->
+        <section class="welcome">
+            <!-- Padrão visual SVG de fundo -->
+            <svg class="welcome-pattern" width="260" height="260" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"/>
+                <circle cx="12" cy="12" r="3"/>
+            </svg>
+
+            <span class="badge-home">
+                <i data-lucide="shield-check"></i>
+                Painel do Tutor
+            </span>
+            <h1>Olá<span th:if="${usuarioLogado != null}" th:text="', ' + ${usuarioLogado.nome}"></span>! Seja bem-vindo ao PetKeep</h1>
+            <p>
+                Acompanhe os cuidados do seu pet, gerencie lembretes diários e encontre apoio para manter a rotina de saúde e bem-estar sempre em dia.
+            </p>
+        </section>
+
+        <!-- Seção de Ações em Cards -->
+        <section class="cards">
+            
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-icon">
+                        <i data-lucide="heart-pulse"></i>
                     </div>
-                    <a href="/pets">
-                        Acessar pets &rarr;
-                    </a>
+                    <h2>Meus Pets</h2>
+                    <p>Gerencie os perfis dos seus companheiros, registre histórico de vacinas, dados de saúde e preferências.</p>
                 </div>
+                <a th:href="@{/pets}">
+                    <span>Acessar pets</span>
+                    <i data-lucide="arrow-right"></i>
+                </a>
+            </div>
 
-                <div class="card">
-                    <div class="card-content">
-                        <h2>Minhas Tarefas</h2>
-                        <p>
-                            Organize horários de medicação, alimentação, passeios e compromissos veterinários.
-                        </p>
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-icon">
+                        <i data-lucide="check-square"></i>
                     </div>
-                    <a href="/tarefas">
-                        Ver rotina &rarr;
-                    </a>
+                    <h2>Minhas Tarefas</h2>
+                    <p>Organize horários de medicação, alimentação, passeios e compromissos com o veterinário.</p>
                 </div>
+                <a th:href="@{/tarefas}">
+                    <span>Ver rotina</span>
+                    <i data-lucide="arrow-right"></i>
+                </a>
+            </div>
 
-                <div class="card">
-                    <div class="card-content">
-                        <h2>Serviços e Cuidados</h2>
-                        <p>
-                            Procure prestadores parceiros e cuidadores disponíveis para auxiliar seu pet.
-                        </p>
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-icon">
+                        <i data-lucide="search"></i>
                     </div>
-                    <a href="/tarefas/disponiveis">
-                        Explorar serviços &rarr;
-                    </a>
+                    <h2>Serviços e Cuidados</h2>
+                    <p>Procure prestadores parceiros, pet sitters e cuidadores disponíveis para auxiliar seu pet.</p>
                 </div>
+                <a th:href="@{/tarefas/disponiveis}">
+                    <span>Explorar serviços</span>
+                    <i data-lucide="arrow-right"></i>
+                </a>
+            </div>
 
-            </section>
+        </section>
 
-            <section class="info-bar">
-                <div class="info-item">
+        <!-- Métricas / Status Rápidos -->
+        <section class="info-bar">
+            <div class="info-item">
+                <div class="info-icon">
+                    <i data-lucide="user-check"></i>
+                </div>
+                <div class="info-details">
                     <h4>Status da Conta</h4>
                     <p>Ativa</p>
                 </div>
-                <div class="info-item">
+            </div>
+
+            <div class="info-item">
+                <div class="info-icon">
+                    <i data-lucide="headphones"></i>
+                </div>
+                <div class="info-details">
                     <h4>Central de Ajuda</h4>
                     <p>Suporte 24h</p>
                 </div>
-                <div class="info-item">
+            </div>
+
+            <div class="info-item">
+                <div class="info-icon">
+                    <i data-lucide="clock"></i>
+                </div>
+                <div class="info-details">
                     <h4>Próxima Atividade</h4>
                     <p>Consulte sua agenda</p>
                 </div>
-            </section>
+            </div>
+        </section>
 
-        </main>
+    </main>
 
-        <footer>
-            PetKeep &copy; 2026 — Seu ecossistema de cuidado animal
-        </footer>
+    <!-- Rodapé -->
+    <footer>
+        PetKeep &copy; 2026 — Seu ecossistema de cuidado animal
+    </footer>
 
-    </body>
+    <script>
+        // Inicializa todos os ícones do Lucide
+        lucide.createIcons();
+    </script>
+</body>
 </html>
